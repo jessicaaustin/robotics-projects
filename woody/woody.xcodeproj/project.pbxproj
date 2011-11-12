@@ -1,0 +1,90 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXFileReference section */
+		4C2473B81334EFBB00A08499 /* notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.txt; sourceTree = "<group>"; };
+		4C2473BF1334EFBB00A08499 /* woody_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = woody_utils.h; sourceTree = "<group>"; };
+		4C2473C21334EFBB00A08499 /* woody.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = woody.c; sourceTree = "<group>"; };
+		4C2473C41334EFBB00A08499 /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		4C2473C51334EFBB00A08499 /* global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = global.h; sourceTree = "<group>"; };
+		4C2473C81334EFBB00A08499 /* avrlibtypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avrlibtypes.h; sourceTree = "<group>"; };
+		4C2473C91334EFBB00A08499 /* avrlibdefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avrlibdefs.h; sourceTree = "<group>"; };
+		4C2473CA1334EFBB00A08499 /* a2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = a2d.h; sourceTree = "<group>"; };
+		4C2473CB1334EFBB00A08499 /* a2d.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = a2d.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		4C2473A61334EFA800A08499 = {
+			isa = PBXGroup;
+			children = (
+				4C2473B81334EFBB00A08499 /* notes.txt */,
+				4C2473BF1334EFBB00A08499 /* woody_utils.h */,
+				4C2473C21334EFBB00A08499 /* woody.c */,
+				4C2473C41334EFBB00A08499 /* makefile */,
+				4C2473C51334EFBB00A08499 /* global.h */,
+				4C2473C81334EFBB00A08499 /* avrlibtypes.h */,
+				4C2473C91334EFBB00A08499 /* avrlibdefs.h */,
+				4C2473CA1334EFBB00A08499 /* a2d.h */,
+				4C2473CB1334EFBB00A08499 /* a2d.c */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		4C2473A81334EFA800A08499 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 4C2473AB1334EFA800A08499 /* Build configuration list for PBXProject "woody" */;
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 4C2473A61334EFA800A08499;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		4C2473A91334EFA800A08499 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		4C2473AA1334EFA800A08499 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C2473AB1334EFA800A08499 /* Build configuration list for PBXProject "woody" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C2473A91334EFA800A08499 /* Debug */,
+				4C2473AA1334EFA800A08499 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4C2473A81334EFA800A08499 /* Project object */;
+}

@@ -1,0 +1,20 @@
+Input ports:
+PD3  - PING))) sensor
+
+Output ports:
+PD0  - left servo
+PD1  - right servo
+PD2  - middle servo
+PD4  - indicator LED
+PD5  - piezo speaker
+
+0b00110111
+
+# gcc already installed
+$ sudo port install avr-gcc avr-libc avrdude
+
+# renamed Photovore_v1.c to woody.c and modified
+# modified makefile to point to avrispmkII and TARGET to woody  
+$ cd woody
+$ make
+$ make program
