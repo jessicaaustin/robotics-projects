@@ -1,0 +1,9 @@
+USAGE
+
+In a terminal, run
+$ player cfg/voronoi.cfg
+(in ubuntu, the executable is called robot-player)
+
+In another terminal:
+$ make
+$ ./bin/voronoibot

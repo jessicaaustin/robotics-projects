@@ -1,0 +1,59 @@
+
+Point
+  members:
+     x, y
+  fns:
+     distance
+
+Model
+  members:
+     origin
+     collection of edges
+  fns:
+     am i inside an obstacle
+
+Types of models: obstacle, enclosure, robot
+
+World
+  members:
+    collection of models
+  fns:
+    is point reachable
+    matlab output
+
+Graph
+  members: 
+     collection of pts
+     collection of visited pts
+  fns:
+     get closest point
+
+FileReader:
+  fns:
+    create edge from str
+    create obstacle from str
+
+Bot
+  members:
+      world
+  fns:
+    set initial odometry
+    set desired odometry
+    go to goal
+    output matlab plot
+  private:
+    go to point
+    get next point
+    is point reachable
+
+VoronoiBot < Bot
+members:
+   GVG (Graph)
+
+main:
+  take in goal, and file with enclosure/obstacles
+  create robot
+  create gvg and set on robot
+  need some way to determine if goal reached/goal is unreachable
+
+

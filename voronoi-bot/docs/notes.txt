@@ -1,0 +1,341 @@
+
+$ g++ -o voronoibot `pkg-config --cflags playerc++` VoronoiBot.cc `pkg-config --libs playerc++` 
+
+equivalent to:
+
+$ gcc -o voronoibot -I/opt/local/include/player-3.0 -I/opt/local/include VoronoiBot.cc -L/opt/local/lib -lplayerc++ -lboost_thread-mt -lboost_signals-mt -lplayerc -lm -lz -lplayerinterface -lplayerwkb -lplayercommon
+In file included from /usr/include/c++/4.0.0/backward/vector.h:59,
+                 from VoronoiBot.hh:4,
+                 from VoronoiBot.cc:1:
+/usr/include/c++/4.0.0/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header. Please consider using one of the 32 headers found in section 17.4.1.2 of the C++ standard. Examples include substituting the <X> header for the <X.h> header for C++ includes, or <iostream> instead of the deprecated header <iostream.h>. To disable this warning use -Wno-deprecated.
+In file included from VoronoiBot.cc:1:
+VoronoiBot.hh:7:75: error: args.h: No such file or directory
+VoronoiBot.cc: In function ‘int main(int, char**)’:
+VoronoiBot.cc:480: error: ‘parse_args’ was not declared in this scope
+VoronoiBot.cc:482: error: ‘xdesired’ was not declared in this scope
+VoronoiBot.cc:482: error: ‘ydesired’ was not declared in this scope
+VoronoiBot.cc:485: error: ‘gHostname’ was not declared in this scope
+VoronoiBot.cc:485: error: ‘gPort’ was not declared in this scope
+VoronoiBot.cc:485: error: ‘gIndex’ was not declared in this scope
+
+need to find args.h:
+
+$ locate args.h | grep -w args.h/Users/ThoughtWorks/work/playerstage-src/stage/examples/libplayerc/playerswarm/.svn/prop-base/args.h.svn-base
+/Users/ThoughtWorks/work/playerstage-src/stage/examples/libplayerc/playerswarm/.svn/text-base/args.h.svn-base
+/Users/ThoughtWorks/work/playerstage-src/stage/examples/libplayerc/playerswarm/args.h
+/opt/local/share/gettext/intl/printf-args.h
+/opt/local/share/player/examples/libplayerc++/args.h
+/opt/local/var/macports/software/gettext/0.17_4/opt/local/share/gettext/intl/printf-args.h
+/opt/local/var/macports/software/playerstage-player/3.0.0_0/opt/local/share/player/examples/libplayerc++/args.h
+
+
+
+$ gcc -o voronoibot -Wno-deprecated -I/opt/local/include/player-3.0 -I/opt/local/include -I/opt/local/share/player/examples/libplayerc++ VoronoiBot.cc -L/opt/local/lib -lplayerc++ -lboost_thread-mt -lboost_signals-mt -lplayerc -lm -lz -lplayerinterface -lplayerwkb -lplayercommon
+VoronoiBot.cc: In function ‘int main(int, char**)’:
+VoronoiBot.cc:482: error: ‘xdesired’ was not declared in this scope
+VoronoiBot.cc:482: error: ‘ydesired’ was not declared in this scope
+
+
+add declaration--"double xdesired, ydesired;"--to the main mehtod of VoronoiBot.cc
+not sure why this wasn't there before? maybe this was a halfway done piece of code
+
+
+$ gcc -o voronoibot -Wno-deprecated -I/opt/local/include/player-3.0 -I/opt/local/include -I/opt/local/share/player/examples/libplayerc++ VoronoiBot.cc -L/opt/local/lib -lplayerc++ -lboost_thread-mt -lboost_signals-mt -lplayerc -lm -lz -lplayerinterface -lplayerwkb -lplayercommon
+Undefined symbols:
+  "std::__throw_out_of_range(char const*)", referenced from:
+      std::vector<Point, std::allocator<Point> >::_M_range_check(unsigned long) constin cccCOOPg.o
+      std::vector<double, std::allocator<double> >::_M_range_check(unsigned long) constin cccCOOPg.o
+  "std::allocator<char>::~allocator()", referenced from:
+      __static_initialization_and_destruction_0(int, int)in cccCOOPg.o
+      __static_initialization_and_destruction_0(int, int)in cccCOOPg.o
+  "std::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(char const*)", referenced from:
+      parse_args(int, char**)in cccCOOPg.o
+  "std::exception::what() const", referenced from:
+      vtable for boost::thread_exceptionin cccCOOPg.o
+  "std::cout", referenced from:
+      __ZSt4cout$non_lazy_ptr in cccCOOPg.o
+  "___cxa_begin_catch", referenced from:
+      __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > > std::__uninitialized_copy_aux<__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > > >(__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __false_type)in cccCOOPg.o
+      std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, std::vector<Point, std::allocator<Point> > const&)in cccCOOPg.o
+  "___gxx_personality_v0", referenced from:
+      ___gxx_personality_v0$non_lazy_ptr in cccCOOPg.o
+  "typeinfo for std::exception", referenced from:
+      typeinfo for boost::thread_exceptionin cccCOOPg.o
+  "std::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()", referenced from:
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      ___tcf_0 in cccCOOPg.o
+      ___tcf_2 in cccCOOPg.o
+  "std::basic_ostream<char, std::char_traits<char> >& std::operator<< <char, std::char_traits<char>, std::allocator<char> >(std::basic_ostream<char, std::char_traits<char> >&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)", referenced from:
+      print_usage(int, char**)in cccCOOPg.o
+  "std::__throw_bad_alloc()", referenced from:
+      __gnu_cxx::new_allocator<Point>::allocate(unsigned long, void const*)in cccCOOPg.o
+      __gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*)in cccCOOPg.o
+      __gnu_cxx::new_allocator<std::vector<Point, std::allocator<Point> > >::allocate(unsigned long, void const*)in cccCOOPg.o
+  "std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)", referenced from:
+      __ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_$non_lazy_ptr in cccCOOPg.o
+  "___cxa_throw", referenced from:
+      boost::unique_lock<boost::mutex>::lock()   in cccCOOPg.o
+  "operator new(unsigned long)", referenced from:
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      __gnu_cxx::new_allocator<Point>::allocate(unsigned long, void const*)in cccCOOPg.o
+      __gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*)in cccCOOPg.o
+      __gnu_cxx::new_allocator<std::vector<Point, std::allocator<Point> > >::allocate(unsigned long, void const*)in cccCOOPg.o
+  "std::ios_base::Init::Init()", referenced from:
+      __static_initialization_and_destruction_0(int, int)in cccCOOPg.o
+  "___cxa_allocate_exception", referenced from:
+      boost::unique_lock<boost::mutex>::lock()   in cccCOOPg.o
+  "std::ios_base::Init::~Init()", referenced from:
+      ___tcf_1 in cccCOOPg.o
+  "std::basic_ostream<char, std::char_traits<char> >::operator<<(double)", referenced from:
+      VoronoiBot::goToPoint(double, double)in cccCOOPg.o
+      VoronoiBot::goToPoint(double, double)in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+  "std::basic_ostream<char, std::char_traits<char> >::operator<<(int)", referenced from:
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      _main in cccCOOPg.o
+  "___cxa_rethrow", referenced from:
+      __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > > std::__uninitialized_copy_aux<__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > > >(__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __false_type)in cccCOOPg.o
+      std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, std::vector<Point, std::allocator<Point> > const&)in cccCOOPg.o
+  "std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&)", referenced from:
+      __static_initialization_and_destruction_0(int, int)in cccCOOPg.o
+  "vtable for __cxxabiv1::__si_class_type_info", referenced from:
+      typeinfo for boost::lock_errorin cccCOOPg.o
+      typeinfo for boost::thread_exceptionin cccCOOPg.o
+  "std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))", referenced from:
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      VoronoiBot::goToPoint(double, double)in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+  "std::cerr", referenced from:
+      __ZSt4cerr$non_lazy_ptr in cccCOOPg.o
+  "std::basic_ofstream<char, std::char_traits<char> >::basic_ofstream()", referenced from:
+      _main in cccCOOPg.o
+  "std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)", referenced from:
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      _main in cccCOOPg.o
+      __static_initialization_and_destruction_0(int, int)in cccCOOPg.o
+  "std::basic_ofstream<char, std::char_traits<char> >::close()", referenced from:
+      _main in cccCOOPg.o
+  "std::exception::~exception()", referenced from:
+      boost::thread_exception::~thread_exception()in cccCOOPg.o
+      boost::thread_exception::~thread_exception()in cccCOOPg.o
+      boost::thread_exception::~thread_exception()in cccCOOPg.o
+  "std::allocator<char>::allocator()", referenced from:
+      __static_initialization_and_destruction_0(int, int)in cccCOOPg.o
+  "std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)", referenced from:
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      print_usage(int, char**)in cccCOOPg.o
+      VoronoiBot::goToPoint(double, double)in cccCOOPg.o
+      VoronoiBot::goToPoint(double, double)in cccCOOPg.o
+      VoronoiBot::goToPoint(double, double)in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+  "vtable for std::exception", referenced from:
+      __ZTVSt9exception$non_lazy_ptr in cccCOOPg.o
+  "operator delete(void*)", referenced from:
+      VoronoiBot::~VoronoiBot()in cccCOOPg.o
+      VoronoiBot::~VoronoiBot()in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      VoronoiBot::VoronoiBot(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, unsigned int)in cccCOOPg.o
+      boost::thread_exception::~thread_exception()in cccCOOPg.o
+      boost::thread_exception::~thread_exception()in cccCOOPg.o
+      boost::thread_exception::~thread_exception()in cccCOOPg.o
+      boost::lock_error::~lock_error()in cccCOOPg.o
+      boost::lock_error::~lock_error()in cccCOOPg.o
+      __gnu_cxx::new_allocator<std::vector<Point, std::allocator<Point> > >::deallocate(std::vector<Point, std::allocator<Point> >*, unsigned long)in cccCOOPg.o
+      __gnu_cxx::new_allocator<Point>::deallocate(Point*, unsigned long)in cccCOOPg.o
+      __gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long)in cccCOOPg.o
+  "___cxa_end_catch", referenced from:
+      __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > > std::__uninitialized_copy_aux<__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > > >(__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, __false_type)in cccCOOPg.o
+      std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, std::vector<Point, std::allocator<Point> > const&)in cccCOOPg.o
+  "std::basic_ofstream<char, std::char_traits<char> >::~basic_ofstream()", referenced from:
+      _main in cccCOOPg.o
+      _main in cccCOOPg.o
+  "std::basic_ofstream<char, std::char_traits<char> >::open(char const*, std::_Ios_Openmode)", referenced from:
+      _main in cccCOOPg.o
+  "std::__throw_length_error(char const*)", referenced from:
+      std::vector<double, std::allocator<double> >::_M_insert_aux(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, double const&)in cccCOOPg.o
+      std::vector<Point, std::allocator<Point> >::_M_insert_aux(__gnu_cxx::__normal_iterator<Point*, std::vector<Point, std::allocator<Point> > >, Point const&)in cccCOOPg.o
+      std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > >::_M_insert_aux(__gnu_cxx::__normal_iterator<std::vector<Point, std::allocator<Point> >*, std::vector<std::vector<Point, std::allocator<Point> >, std::allocator<std::vector<Point, std::allocator<Point> > > > >, std::vector<Point, std::allocator<Point> > const&)in cccCOOPg.o
+ld: symbol(s) not found
+collect2: ld returned 1 exit status
+
+
+try using g++ instead:
+
+$ g++ -o voronoibot -Wno-deprecated -I/opt/local/include/player-3.0 -I/opt/local/include -I/opt/local/share/player/examples/libplayerc++ VoronoiBot.cc -L/opt/local/lib -lplayerc++ -lboost_thread-mt -lboost_signals-mt -lplayerc -lm -lz -lplayerinterface -lplayerwkb -lplayercommon
+$ ls
+VoronoiBot.cc	VoronoiBot.hh	notes.rtf	voronoibot
+
+
+
+
+
+to execute:
+in 1st terminal:
+
+$ player ../stage/worlds/simple.cfg
+Registering driver
+Player v.3.0.0
+
+* Part of the Player/Stage/Gazebo Project [http://playerstage.sourceforge.net].
+* Copyright (C) 2000 - 2009 Brian Gerkey, Richard Vaughan, Andrew Howard,
+* Nate Koenig, and contributors. Released under the GNU General Public License.
+* Player comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
+* are welcome to redistribute it under certain conditions; see COPYING
+* for details.
+
+invoking player_driver_init()...
+ Stage driver plugin init
+
+ ** Stage plugin v3.2.2 **
+ * Part of the Player Project [http://playerstage.sourceforge.net]
+ * Copyright 2000-2009 Richard Vaughan, Brian Gerkey and contributors.
+ * Released under the GNU General Public License v2.
+
+success
+ Stage plugin:  6665.simulation.0 is a Stage world
+ [Loading ../stage/worlds/simple.world][Include pioneer.inc][Include map.inc][Include sick.inc]
+
+ Stage plugin:  6665.position2d.0 is "r0"
+ Stage plugin:  6665.laser.0 is "r0.laser:0"
+ Stage plugin:  6665.speech.0 is "r0"
+ Stage plugin:  6665.graphics2d.0 is "r0"
+ Stage plugin:  6665.graphics3d.0 is "r0"
+listening on 6665
+Listening on ports: 6665 
+accepted TCP client 0 on port 6665, fd 7
+stage driver setup
+
+
+in 2nd terminal:
+
+$ ./voronoibot 
+desired location: (0.000000 , 0.000000)
+playerc warning   : warning : [Player v.3.0.0] connected on [localhost:6665] with sock 3
+
+Creating GVG... done.
+Robot initialized. Goal: (0.000000 , 0.000000)
+Going to point (-2.5,-2.5)
+Going to point (-2.5,-2)
+Going to point (-2,-2)
+Going to point (-2,-1.5)
+
+
+
