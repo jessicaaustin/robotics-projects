@@ -2,3 +2,5 @@ This project contains code that follows the Neuroforge python opencv tutorial:
 http://www.neuroforge.co.uk/index.php/getting-started-with-python-a-opencv
 
 The tutorial uses opencv v2.1, and this code uses opencv v2.2, so there are some slight differences.
+
+All code was written using python v2.7.1
