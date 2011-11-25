@@ -1,6 +1,8 @@
-This project contains code that follows the Neuroforge python opencv tutorial:
+This project contains code for various opencv tutorials, including
+
 http://www.neuroforge.co.uk/index.php/getting-started-with-python-a-opencv
+http://www.aishack.in/2010/07/tracking-colored-objects-in-opencv/
 
-The tutorial uses opencv v2.1, and this code uses opencv v2.2, so there are some slight differences.
-
-All code was written using python v2.7.1
+Dependencies:
+ opencv 2.2
+ python 2.7 (though 2.6 would probably work fine)
