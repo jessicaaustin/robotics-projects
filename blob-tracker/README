@@ -1,0 +1,23 @@
+Tracks a colored objects using opencv
+
+Requirements:
+  opencv 2.2
+  python 2.6 or python 2.7
+
+
+Usage:
+
+Use the color_detector script to find a range of HSV values to track
+  ./color_detector.py --help
+Use the blob_tracker script to track the object
+  ./blob_tracker.py --help
+
+
+Examples:
+
+Track a green object
+  ./blob_tracker.py --green
+Track a blue object on video camera at /dev/video1
+  ./blob_tracker.py -c 1 --blue
+Track a custom HSV value
+  ./blob_tracker.py -m "(70, 110, 120)" -x "(105, 255, 255)"

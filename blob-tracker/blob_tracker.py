@@ -7,15 +7,34 @@
 import cv
 from optparse import OptionParser
 
+# TODO use argparse instead
 parser = OptionParser()
 parser.add_option("-c", "--camera", dest="camera_device", default=0,
                     help="the index of your camera. if /dev/videoN is your camera device, then --camera=N [default: %default]")
+parser.add_option("-m", "--min-threshold", dest="min_threshold",
+                    default="(70, 110, 120)",
+                    help="minimum threshold value in HSV (hue,sat,val). if not given, will track a blue ball. [default: %default]")
+parser.add_option("-x", "--max-threshold", dest="max_threshold",
+                    default="(105, 255, 255)",
+                    help="maximum threshold value in HSV (hue,sat,val). if not given, will track a blue ball. [default: %default]")
 parser.add_option("-s", "--smoothness", dest="smoothness", default=4,
                     help="how many previous positions to interpolate to find our current position. higher smoothness => slower tracking, but less jerkiness [default: %default]")
+parser.add_option("", "--red", action="store_true", dest="track_red", help="track a red object")
+parser.add_option("", "--green", action="store_true", dest="track_green", help="track a green object")
+parser.add_option("", "--blue", action="store_true", dest="track_blue", help="track a blue object")
 
 (options, args) = parser.parse_args()
 MY_CAMERA = int(options.camera_device)
 SMOOTHNESS = int(options.smoothness)
+MIN_THRESH = eval(options.min_threshold)
+MAX_THRESH = eval(options.max_threshold)
+
+if options.track_red:
+    MIN_THRESH, MAX_THRESH = (163.0, 85.5, 72.5, 0.0), (189.0, 244.5, 247.5, 0.0)
+if options.track_green:
+    MIN_THRESH, MAX_THRESH = ( 60.5, 74.5, 73.5, 0.0), (109.5, 215.5, 206.5, 0.0)
+if options.track_blue:
+    MIN_THRESH, MAX_THRESH = ( 75.0, 80.0, 80.0, 0.0), (125.0, 230.0, 230.0, 0.0)
 
 # convert the given image to a binary image where all values are 
 # zero other than areas with blue hue
@@ -25,9 +44,7 @@ def thresholded_image(image):
     cv.CvtColor(image, image_hsv, cv.CV_BGR2HSV)
     # threshold the image
     image_threshed = cv.CreateImage(cv.GetSize(image), image.depth, 1)
-    blue_min = cv.Scalar(70, 110, 120)
-    blue_max = cv.Scalar(105, 255, 255)
-    cv.InRangeS(image_hsv, blue_min, blue_max, image_threshed)
+    cv.InRangeS(image_hsv, MIN_THRESH, MAX_THRESH, image_threshed)
     return image_threshed
 
 # initialize camera feed
@@ -69,7 +86,7 @@ while 1:
             positions_y.append(moment01/area)
             # discard all but the last N positions
             positions_x, positions_y = positions_x[-SMOOTHNESS:], positions_y[-SMOOTHNESS:]
-            print("pos",(positions_x[-1],positions_y[-1]))
+#            print("pos",(positions_x[-1],positions_y[-1]))
 
     # show where the ball is located
     ball_indicator = cv.CreateImage(cv.GetSize(image), image.depth, 3)

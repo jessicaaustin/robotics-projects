@@ -70,6 +70,8 @@ while 1:
     c = cv.WaitKey(10)
     if c == 27:
         print "final thresholds:\nmin=%s\nmax=%s"%(thresh_min,thresh_max)
+        print "\n\nCommand to run tracking script:\n"
+        print "./blob_tracker.py -c %s -m \"%s\" -x \"%s\"\n\n" % (MY_CAMERA, thresh_min, thresh_max)
         break
     elif c == -1:
         continue
