@@ -8,20 +8,24 @@
 
 import cv
 
+# the index of your video feed
+# if /dev/videoN is your camera device, then MY_CAMERA = N
+MY_CAMERA = 1
+
 def thresholded_image(image):
     # convert image to hsv
     image_hsv = cv.CreateImage(cv.GetSize(image), image.depth, 3)
     cv.CvtColor(image, image_hsv, cv.CV_BGR2HSV)
     # threshold the image (note--I am tracking a blue ball, not a yellow one)
     image_threshed = cv.CreateImage(cv.GetSize(image), image.depth, 1)
-    blue_min = cv.Scalar(105, 200, 100)
-    blue_max = cv.Scalar(115, 255, 255)
+    blue_min = cv.Scalar(70, 110, 120)
+    blue_max = cv.Scalar(105, 255, 255)
     cv.InRangeS(image_hsv, blue_min, blue_max, image_threshed)
     return image_threshed
 
 # use this function to test your thresholds
 def test_thresholded_image():
-    capture = cv.CaptureFromCAM(0)
+    capture = cv.CaptureFromCAM(MY_CAMERA)
     image = cv.QueryFrame(capture)
     image_threshed = thresholded_image(image)
     cv.NamedWindow('test', cv.CV_WINDOW_AUTOSIZE)
@@ -33,7 +37,7 @@ def test_thresholded_image():
 #test_thresholded_image()
 
 # initialize camera feed
-capture = cv.CaptureFromCAM(0)
+capture = cv.CaptureFromCAM(MY_CAMERA)
 if not capture:
     print "Could not initialize camera feed!"
     exit(1)
