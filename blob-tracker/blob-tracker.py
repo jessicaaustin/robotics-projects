@@ -10,6 +10,11 @@ import cv
 # if /dev/videoN is your camera device, then MY_CAMERA = N
 MY_CAMERA = 1
 
+# instead of tracking any instantaneous position, we will track
+# the average of the previous N positions
+# higher SMOOTHNESS => slower tracking, but less jerkiness
+SMOOTHNESS = 4
+
 # convert the given image to a binary image where all values are 
 # zero other than areas with blue hue
 def thresholded_image(image):
@@ -33,7 +38,8 @@ if not capture:
 cv.NamedWindow('camera', cv.CV_WINDOW_AUTOSIZE)
 cv.NamedWindow('threshed', cv.CV_WINDOW_AUTOSIZE)
 
-pos_x,pos_y=0,0
+# initialize position array
+positions_x, positions_y = [0]*SMOOTHNESS, [0]*SMOOTHNESS
 
 # read from the camera
 print "Tracking ball... press any key to quit"
@@ -57,13 +63,16 @@ while 1:
 
         # if we got a good enough blob
         if area>0:
-            pos_x = moment10/area
-            pos_y = moment01/area
-
-            print("pos=(%s,%s)"%(pos_x,pos_y))
+            positions_x.append(moment10/area)
+            positions_y.append(moment01/area)
+            # discard all but the last N positions
+            positions_x, positions_y = positions_x[-SMOOTHNESS:], positions_y[-SMOOTHNESS:]
+            print("pos",(positions_x[-1],positions_y[-1]))
 
     # show where the ball is located
     ball_indicator = cv.CreateImage(cv.GetSize(image), image.depth, 3)
+    pos_x = (sum(positions_x)/len(positions_x))
+    pos_y = (sum(positions_y)/len(positions_y))
     cv.Circle(ball_indicator, (int(pos_x),int(pos_y)), 8, (0,255,0), 2)
     cv.Add(image, ball_indicator, image)
 
