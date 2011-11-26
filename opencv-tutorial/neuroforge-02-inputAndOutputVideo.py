@@ -23,6 +23,9 @@ cv.NamedWindow('camera', cv.CV_WINDOW_AUTOSIZE)
 cv.ShowImage('camera', image)
 cv.WaitKey(10000)
 
+# save the image to the filesystem
+cv.SaveImage('image.png', image)
+
 # create a video writer
 writer = cv.CreateVideoWriter("output.avi", 0, 15, cv.GetSize(image), 1)
 
