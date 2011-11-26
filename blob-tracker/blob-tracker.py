@@ -5,15 +5,17 @@
 #
 
 import cv
+from optparse import OptionParser
 
-# the index of your video feed
-# if /dev/videoN is your camera device, then MY_CAMERA = N
-MY_CAMERA = 1
+parser = OptionParser()
+parser.add_option("-c", "--camera", dest="camera_device", default=0,
+                    help="the index of your camera. if /dev/videoN is your camera device, then --camera=N [default: %default]")
+parser.add_option("-s", "--smoothness", dest="smoothness", default=4,
+                    help="how many previous positions to interpolate to find our current position. higher smoothness => slower tracking, but less jerkiness [default: %default]")
 
-# instead of tracking any instantaneous position, we will track
-# the average of the previous N positions
-# higher SMOOTHNESS => slower tracking, but less jerkiness
-SMOOTHNESS = 4
+(options, args) = parser.parse_args()
+MY_CAMERA = int(options.camera_device)
+SMOOTHNESS = int(options.smoothness)
 
 # convert the given image to a binary image where all values are 
 # zero other than areas with blue hue
