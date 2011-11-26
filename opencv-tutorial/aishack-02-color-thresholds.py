@@ -4,6 +4,9 @@
 # Color thresholds in OpenCV
 # http://www.aishack.in/2010/07/tracking-colored-objects-in-opencv/
 #
+# load an image, convert to HSV color space, and threshold the image
+# for yellow hue values 
+#
 
 import cv
 
