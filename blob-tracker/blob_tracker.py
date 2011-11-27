@@ -67,8 +67,11 @@ while 1:
     if not image:
         break
 
-    # get the thresholded image
-    image_threshed = thresholded_image(image)
+    # smooth the image
+    image_smoothed = cv.CloneImage(image)
+    cv.Smooth(image, image_smoothed, cv.CV_GAUSSIAN, 15)
+    # threshold the smoothed image
+    image_threshed = thresholded_image(image_smoothed)
 
     # finds the contours in our binary image
     contours = cv.FindContours(cv.CloneImage(image_threshed), cv.CreateMemStorage())
@@ -86,7 +89,7 @@ while 1:
             positions_y.append(moment01/area)
             # discard all but the last N positions
             positions_x, positions_y = positions_x[-SMOOTHNESS:], positions_y[-SMOOTHNESS:]
-#            print("pos",(positions_x[-1],positions_y[-1]))
+            print("pos",(positions_x[-1],positions_y[-1]))
 
     # show where the ball is located
     ball_indicator = cv.CreateImage(cv.GetSize(image), image.depth, 3)
