@@ -4,6 +4,7 @@
 # Tracks a colored object using OpenCV
 #
 
+from serial import Serial
 import cv
 from optparse import OptionParser
 import operator
@@ -55,6 +56,13 @@ def thresholded_image(image):
     cv.InRangeS(image_hsv, MIN_THRESH, MAX_THRESH, image_threshed)
     return image_threshed
 
+try:
+    panTilt = Serial('/dev/ttyACM1', 9600)
+    panTilt.write('r')
+except:
+    print 'Serial() failed'
+    exit(1)
+
 # initialize camera feed
 capture = cv.CaptureFromCAM(MY_CAMERA)
 if not capture:
@@ -79,6 +87,12 @@ while 1:
     cv.Smooth(image, image_smoothed, cv.CV_GAUSSIAN, 15)
     # threshold the smoothed image
     image_threshed = thresholded_image(image_smoothed)
+    
+    # blobify
+    cv.Dilate(image_threshed, image_threshed, None, 18)
+    cv.Erode(image_threshed, image_threshed, None, 10)
+
+    foundBlob = False
 
     # finds the contours in our binary image
     contours = cv.FindContours(cv.CloneImage(image_threshed), cv.CreateMemStorage())
@@ -92,25 +106,65 @@ while 1:
 
         # if we got a good enough blob
         if area>0:
+            foundBlob = True
             positions_x.append(moment10/area)
             positions_y.append(moment01/area)
             # discard all but the last N positions
             positions_x, positions_y = positions_x[-SMOOTHNESS:], positions_y[-SMOOTHNESS:]
+               
 
-    # show where the object is located
+
+    #
+    # object_indicator will be the new image which shows where the identified
+    # blob has been located.
+    #
     object_indicator = cv.CreateImage(cv.GetSize(image), image.depth, 3)
+
+    #
+    # the average location of the identified blob
+    #
     pos_x = (sum(positions_x)/len(positions_x))
     pos_y = (sum(positions_y)/len(positions_y))
     object_position = (int(pos_x),int(pos_y))
+
     cv.Circle(object_indicator, object_position, 8, (0,255,0), 2)
 
-    if FOLLOW:
-        # draw a line to the origin
-        origin = cv.GetSize(image)
-        origin = tuple(map(operator.mul, origin, (0.5, 0.5)))
-        origin = tuple(map(int, origin))
-        cv.Circle(object_indicator, origin, 4, (255,0,0), 2)
-        cv.Line(object_indicator, object_position, origin, (255,0,0), 3) 
+
+    if FOLLOW and foundBlob:
+        # draw a line to the desiredPosition
+        desiredPosition = cv.GetSize(image)
+        desiredPosition = tuple(map(operator.mul, desiredPosition, (0.5, 0.5)))
+        desiredPosition = tuple(map(int, desiredPosition))
+        cv.Circle(object_indicator, desiredPosition, 4, (255,0,0), 2)
+        cv.Line(object_indicator, object_position, desiredPosition, (255,0,0), 3) 
+
+        panLeft = 's'
+        panRight = 'd'
+        tiltUp = 'e'
+        tiltDown = 'x'
+
+        epsilon = 20
+
+        x_err = abs(object_position[0] - desiredPosition[0])
+        kx = x_err/50
+        print "kx = %s" % kx
+        if x_err > epsilon:
+            if (object_position[0] - desiredPosition[0]) > 0:
+                panTilt.write(panRight*kx)
+            elif (object_position[0] - desiredPosition[0]) < 0:
+                panTilt.write(panLeft*kx)
+
+        y_err = abs(object_position[1] - desiredPosition[1])
+        ky = y_err/50
+        print "ky = %s" % ky
+        if y_err > epsilon:
+            if (object_position[1] - desiredPosition[1]) > 0:
+                panTilt.write(tiltDown*ky)
+            elif (object_position[1] - desiredPosition[1]) < 0:
+                panTilt.write(tiltUp*ky)
+
+
+
 
     # show the images
     cv.Add(image, object_indicator, image)
