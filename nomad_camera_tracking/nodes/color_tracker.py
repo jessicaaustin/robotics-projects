@@ -30,7 +30,7 @@ class ColorTracker():
 
         # create display windows
         cv.NamedWindow('camera', cv.CV_WINDOW_AUTOSIZE)
-        cv.NamedWindow('threshed', cv.CV_WINDOW_AUTOSIZE)
+#        cv.NamedWindow('threshed', cv.CV_WINDOW_AUTOSIZE)
 
         # store the image capture params
         self.smoothness = smoothness
@@ -106,6 +106,7 @@ class ColorTracker():
         cv.Add(image, object_indicator, image)
         cv.ShowImage('threshed', image_threshed)
         cv.ShowImage('camera', image)
+        c = cv.WaitKey(1)
 
         if foundBlob:
             return Point(pos_x, pos_y, 0)
