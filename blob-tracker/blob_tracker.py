@@ -56,12 +56,13 @@ def thresholded_image(image):
     cv.InRangeS(image_hsv, MIN_THRESH, MAX_THRESH, image_threshed)
     return image_threshed
 
-try:
-    panTilt = Serial('/dev/ttyACM1', 9600)
-    panTilt.write('r')
-except:
-    print 'Serial() failed'
-    exit(1)
+if FOLLOW:
+    try:
+        panTilt = Serial('/dev/ttyACM1', 9600)
+        panTilt.write('r')
+    except:
+        print 'Serial() failed'
+        exit(1)
 
 # initialize camera feed
 capture = cv.CaptureFromCAM(MY_CAMERA)
