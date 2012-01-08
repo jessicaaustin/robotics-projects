@@ -1,0 +1,6 @@
+nodes/color-tracker.py
+  tracks a blob of a specified color
+  publishes to a topic (blob_coord) the x,y coords of that blob
+
+nodes/pan-tilt.py
+  reads from blob_coord, does a frame transformation, and moves pan-tilt motors to center on the blob
