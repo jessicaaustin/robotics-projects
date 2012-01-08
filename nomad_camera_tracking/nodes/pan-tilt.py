@@ -13,19 +13,21 @@ import rospy
 from geometry_msgs.msg import Point
 
 def updateBlobLocation(coordinateUpdateMessage):
-	# adjust the camera
-	print Point
+    # adjust the camera
+    print "Point message received"
+    print "x: %f, y:%f, z: %f" % (coordinateUpdateMessage.x, coordinateUpdateMessage.y, coordinateUpdateMessage.z)
+    print "\n"
 
-	return
+    return
 
 def mainControlLoop():
 
     blobCoordSubscriber = rospy.Subscriber('blob_coord', Point, updateBlobLocation)
 
-	while not rospy.is_shutdown():
-		rospy.spin()
+    while not rospy.is_shutdown():
+        rospy.spin()
 
-	return
+    return
 
 if __name__ == '__main__':
 
