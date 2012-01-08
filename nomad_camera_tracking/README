@@ -1,3 +1,9 @@
+SETUP
+
+make sure the current directory is on your ROS_PACKAGE_PATH
+
+NOTES
+
 nodes/color-tracker.py
   tracks a blob of a specified color
   publishes to a topic (blob_coord) the x,y coords of that blob
