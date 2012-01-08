@@ -11,6 +11,9 @@ import roslib ; roslib.load_manifest('nomad_camera_tracking')
 import rospy
 
 from geometry_msgs.msg import Point
+from PanTilt import PanTilt
+
+panTilt = None
 
 def updateBlobLocation(coordinateUpdateMessage):
     # adjust the camera
@@ -22,7 +25,11 @@ def updateBlobLocation(coordinateUpdateMessage):
 
 def mainControlLoop():
 
+	global panTilt
+
     blobCoordSubscriber = rospy.Subscriber('blob_coord', Point, updateBlobLocation)
+	panTilt = PanTilt('/dev/ttyUSB0')
+	panTilt.centerCamera()
 
     while not rospy.is_shutdown():
         rospy.spin()
