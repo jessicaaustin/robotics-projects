@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-pan-tilt.py
+pan_tilt.py
 
 subscribes to the source of color blob location coordinates
 and updates the aim of the camera, based on those coordinates.
