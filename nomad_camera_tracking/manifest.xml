@@ -10,6 +10,7 @@
   <url>https://github.com/jessicaaustin/robotics-projects/</url>
   <depend package="std_msgs"/>
   <depend package="rospy"/>
+  <depend package="geometry_msgs"/>
 
 </package>
 

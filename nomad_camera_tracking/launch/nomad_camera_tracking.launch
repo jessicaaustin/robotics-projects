@@ -1,0 +1,4 @@
+<launch>
+    <node name="color_tracker" pkg="nomad_camera_tracking" type="color-tracker.py" respawn="true" />
+</launch>
+
