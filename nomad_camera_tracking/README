@@ -21,3 +21,17 @@ nodes/color_tracker.py
 
 nodes/pan_tilt.py
   reads from blob_coord, does a frame transformation, and moves pan_tilt motors to center on the blob
+
+TODO
+
+publish PointStamped instead of Point for blob_coord 
+define all the transforms in ROS terms
+  world -> camera
+  camera -> ball
+  world -> pan/tilt base
+  pan/tilt base -> laser pointer
+publish the transforms (can check with rviz)
+ROS node to control pan/tilt unit
+controller (probably just proportional) to drive the error between laser and ball location to zero
+  
+
