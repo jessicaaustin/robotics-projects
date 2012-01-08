@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-pan-tilt.py
+pan_tilt.py
 
 subscribes to the source of color blob location coordinates
 and updates the aim of the camera, based on those coordinates.
@@ -31,8 +31,8 @@ def mainControlLoop():
 
 if __name__ == '__main__':
 
-    rospy.init_node('pan-tilt', log_level = rospy.DEBUG)
-    rospy.loginfo('pan-tilt starting')
+    rospy.init_node('pan_tilt', log_level = rospy.DEBUG)
+    rospy.loginfo('pan_tilt starting')
 
     mainControlLoop()
 
