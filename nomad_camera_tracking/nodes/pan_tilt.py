@@ -31,8 +31,8 @@ def mainControlLoop():
 
 if __name__ == '__main__':
 
-    rospy.init_node('pan-tilt', log_level = rospy.DEBUG)
-    rospy.loginfo('pan-tilt starting')
+    rospy.init_node('pan_tilt', log_level = rospy.DEBUG)
+    rospy.loginfo('pan_tilt starting')
 
     mainControlLoop()
 
