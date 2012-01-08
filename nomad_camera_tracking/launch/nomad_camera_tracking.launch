@@ -1,4 +1,5 @@
 <launch>
-    <node name="color_tracker" pkg="nomad_camera_tracking" type="color-tracker.py" respawn="true" />
+	<node name="rxconsole" pkg="rxtools" type="rxconsole" respawn="false" />
+    <node name="color_tracker" pkg="nomad_camera_tracking" type="color-tracker.py" />
 </launch>
 

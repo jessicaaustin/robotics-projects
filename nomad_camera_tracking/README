@@ -1,5 +1,6 @@
 SETUP
 
+install opencv and opencv python bindings
 make sure the current directory is on your ROS_PACKAGE_PATH
 chmod +x nodes/color-tracker.py
 
@@ -10,6 +11,9 @@ roslaunch nomad_camera_tracking nomad_camera_tracking.launch
 
 
 NOTES
+
+nodes/settings.py
+  list all project constants here, so we don't have to pollute our code with magic numbers
 
 nodes/color-tracker.py
   tracks a blob of a specified color
