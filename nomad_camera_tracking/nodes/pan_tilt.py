@@ -22,25 +22,28 @@ def mainControlLoop():
     global panTilt
 
     panTilt = PanTilt('/dev/ttyUSB0')
+    panTilt.setSpeed(1000)
     panTilt.centerCamera()
     cameraAim = Point()
     cameraAim.z = 0
 
     random.seed()
 
-#    blobTracker = rospy.Subscriber('', Point)
+#    blobTracker = rospy.Subscriber('', Point, callback)
     trackingCamera = rospy.Publisher('trackingCamera', Point)
     
     while not rospy.is_shutdown():
-        randomPan = random.randint(-50, 50)
-        randomTilt = random.randint(-50, 50)
 
+        randomPan = random.randint(-10, 10)
+        randomTilt = random.randint(-10, 10)
+    
         panTilt.aimCamera(randomPan, randomTilt)
-
+    
         cameraAim.x, cameraAim.y = panTilt.getCameraAim()
+        print cameraAim.x, cameraAim.y
         trackingCamera.publish(cameraAim)
 
-        rospy.sleep(1.0)
+        rospy.sleep(0.5)
 
     return
 
