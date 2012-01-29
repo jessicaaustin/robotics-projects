@@ -17,7 +17,9 @@ resolution: 640 x 480 pixels
 import roslib; roslib.load_manifest('nomad_camera_tracking')
 import rospy
 
+from geometry_msgs.msg import PointStamped
 from geometry_msgs.msg import Point
+from rospy.exceptions import ROSInitException
 
 import cv
 import operator
@@ -112,7 +114,7 @@ class ColorTracker():
         cv.Add(image, object_indicator, image)
         cv.ShowImage('threshed', image_threshed)
         cv.ShowImage('camera', image)
-        c = cv.WaitKey(1)
+        cv.WaitKey(1)
 
         if foundBlob:
             return Point(pos_x, pos_y, 0)
@@ -139,10 +141,13 @@ if __name__ == '__main__':
     rospy.sleep(3)  # let rxconsole boot up
     rospy.loginfo("Initializing color_tracker node")
     color_tracker = ColorTracker(settings.MY_CAMERA, settings.MIN_THRESH, settings.MAX_THRESH, settings.SMOOTHNESS)
-    # TODO change to PointStamped msg
-    pub_blob_coord = rospy.Publisher('blob_coord', Point)
+    pub_blob_coord = rospy.Publisher('blob_coord', PointStamped)
 
     while not rospy.is_shutdown():
         blob_coord = color_tracker.find_blob()
         if blob_coord:
-            pub_blob_coord.publish(blob_coord)
+            blob_coord_stamped = PointStamped()
+            blob_coord_stamped.header.frame_id = "camera_lens_optical"
+            blob_coord_stamped.header.stamp = rospy.Time.now()
+            blob_coord_stamped.point = blob_coord
+            pub_blob_coord.publish(blob_coord_stamped)
