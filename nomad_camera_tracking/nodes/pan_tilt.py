@@ -9,6 +9,8 @@ and updates the aim of the camera, based on those coordinates.
 
 import roslib ; roslib.load_manifest('nomad_camera_tracking')
 import rospy
+import random
+import sys
 
 from geometry_msgs.msg import Point
 from PanTilt import PanTilt
@@ -24,11 +26,20 @@ def mainControlLoop():
     cameraAim = Point()
     cameraAim.z = 0
 
+    random.seed()
+
+#    blobTracker = rospy.Subscriber('', Point)
     trackingCamera = rospy.Publisher('trackingCamera', Point)
     
     while not rospy.is_shutdown():
+        randomPan = random.randint(-50, 50)
+        randomTilt = random.randint(-50, 50)
+
+        panTilt.aimCamera(randomPan, randomTilt)
+
         cameraAim.x, cameraAim.y = panTilt.getCameraAim()
         trackingCamera.publish(cameraAim)
+
         rospy.sleep(1.0)
 
     return
