@@ -24,7 +24,8 @@ from math import pi
 ## and tilt angles of the rig
 pan = 0
 tilt = 0
-
+pan_conversion = (44./25.)*(pi/180.)
+tilt_conversion = (44./25.)*(pi/180.)
 
 ##################
 # TIMER CALLBACK #
@@ -87,10 +88,12 @@ def point_callback(data):
     tracking camera control node, and then it changes the values of
     the global variables for pan and tilt.
     """
-    global pan, tilt
-    pan = data.x
-    tilt = data.y
-
+    global pan, tilt, pan_conversion, tilt_conversion
+    pan = -data.x*pan_conversion
+    tilt = data.y*tilt_conversion
+    print "Pan Value = ",data.x,"Tilt Value = ",data.y
+    print "Converted Pan = ",pan,"Converted Tilt Value = ",tilt
+    
 
 #########################
 # SETUP ROS ENVIRONMENT #
