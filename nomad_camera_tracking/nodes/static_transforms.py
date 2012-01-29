@@ -42,7 +42,7 @@ if __name__ == '__main__':
         # rotate so that the z axis is coming out of the camera lens
         camera_base_br = tf.TransformBroadcaster()
         camera_base_br.sendTransform((0, 0, 0),
-                     tf.transformations.quaternion_from_euler(-pi/2.0, 0, pi/2.0),
+                     tf.transformations.quaternion_from_euler(-pi/2.0, 0, 0),
                      rospy.Time.now(),
                      "camera_lens_optical",
                      "camera_lens")
