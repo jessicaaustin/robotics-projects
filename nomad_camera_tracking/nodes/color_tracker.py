@@ -2,12 +2,11 @@
 
 """
 
-color-tracker.py
+color_tracker.py
 
 tracks a blob of a specified color
 publishes to a topic (blob_coord) the x,y coords (in the world frame) of that blob
 
-camera location: (.78, -.13, .115)
 FOV: 88cm in x direction, 73cm in y direction when ball is 1 meter away
 resolution: 640 x 480 pixels
 
