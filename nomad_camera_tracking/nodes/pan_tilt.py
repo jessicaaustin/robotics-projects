@@ -15,24 +15,21 @@ from PanTilt import PanTilt
 
 panTilt = None
 
-def updateBlobLocation(coordinateUpdateMessage):
-    # adjust the camera
-    print "Point message received"
-    print "x: %f, y:%f, z: %f" % (coordinateUpdateMessage.x, coordinateUpdateMessage.y, coordinateUpdateMessage.z)
-    print "\n"
-
-    return
-
 def mainControlLoop():
 
-	global panTilt
+    global panTilt
 
-    blobCoordSubscriber = rospy.Subscriber('blob_coord', Point, updateBlobLocation)
-	panTilt = PanTilt('/dev/ttyUSB0')
-	panTilt.centerCamera()
+    panTilt = PanTilt('/dev/ttyUSB0')
+    panTilt.centerCamera()
+    cameraAim = Point()
+    cameraAim.z = 0
 
+    trackingCamera = rospy.Publisher('trackingCamera', Point)
+    
     while not rospy.is_shutdown():
-        rospy.spin()
+        cameraAim.x, cameraAim.y = panTilt.getCameraAim()
+        trackingCamera.publish(cameraAim)
+        rospy.sleep(1.0)
 
     return
 

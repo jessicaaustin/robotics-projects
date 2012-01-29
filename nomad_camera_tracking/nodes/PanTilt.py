@@ -20,11 +20,20 @@ class PanTilt:
 		self.defaultSpeed = 300
 		self.panCenter = "#%d P1500 S%d" % (self.panServo, self.defaultSpeed)
 		self.tiltCenter = "#%d P1500 S%d" % (self.tiltServo, self.defaultSpeed)
-		
+		self.panValue = 0
+		self.tiltValue = 0
+		self.panScale = 15
+		self.tiltScale = 15
+
+	def getCameraAim(self):
+		return self.panValue, self.tiltValue
 
 	def centerCamera(self):
 		self.cameraPanTilt.commandNoResponse(self.panCenter)
 		self.cameraPanTilt.commandNoResponse(self.tiltCenter)
+
+		self.panValue = 0
+		self.tiltValue = 0
 
 		return
 
@@ -56,8 +65,9 @@ class PanTilt:
 		elif (tiltFactor > 50):
 			tiltFactor = 50
 
-		tilt = tiltFactor * 15 + 1500
+		tilt = tiltFactor * self.tiltScale + 1500
 		self.cameraPanTilt.commandNoResponse("#%d P%d S%d" % (self.tiltServo, tilt, self.defaultSpeed))
+		self.tiltValue = tiltFactor
 
 		return
 
@@ -67,8 +77,9 @@ class PanTilt:
 		elif (panFactor > 50):
 			panFactor = 50
 
-		pan = panFactor * 15 - 1500
+		pan = panFactor * self.panScale - 1500
 		self.cameraPanTilt.commandNoResponse("#%d P%d S%d" % (self.panServo, pan, self.defaultSpeed))
+		self.panValue = panFactor
 
 		return
 
