@@ -139,6 +139,7 @@ if __name__ == '__main__':
     rospy.sleep(3)  # let rxconsole boot up
     rospy.loginfo("Initializing color_tracker node")
     color_tracker = ColorTracker(settings.MY_CAMERA, settings.MIN_THRESH, settings.MAX_THRESH, settings.SMOOTHNESS)
+    # TODO change to PointStamped msg
     pub_blob_coord = rospy.Publisher('blob_coord', Point)
 
     while not rospy.is_shutdown():
