@@ -99,7 +99,7 @@ def init_ros():
     rospy.init_node('tracker_subscriber')
 
     ## define the subscriber
-    rospy.Subscriber("TrackingCamera", Point, point_callback)
+    rospy.Subscriber("trackingCamera", Point, point_callback)
 
     ## define a timer
     rospy.Timer(rospy.Duration(0.01), timer_callback)
