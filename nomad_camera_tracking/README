@@ -3,6 +3,8 @@ SETUP
 install opencv and opencv python bindings
 make sure the current directory is on your ROS_PACKAGE_PATH
 chmod +x nodes/color_tracker.py
+chmod +x nodes/static_transforms.py
+chmod +x nodes/pan_tilt.py
 
 TO RUN
 

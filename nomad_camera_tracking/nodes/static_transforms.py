@@ -13,6 +13,8 @@ import rospy
 
 import tf
 
+from math import pi
+
 if __name__ == '__main__':
     rospy.init_node('static_transforms')
 
@@ -30,11 +32,20 @@ if __name__ == '__main__':
         # from camera_base to camera_lens
         # this frame has a rotation offset from the base, plus a z offset, but no x,y offset
         camera_base_br = tf.TransformBroadcaster()
-        camera_base_br.sendTransform((0, 0, 0.13),           # TODO get these angles
-                     tf.transformations.quaternion_from_euler(0, 0, 0),
+        camera_base_br.sendTransform((0, 0, 0.13),
+                     tf.transformations.quaternion_from_euler(0.175, 0, 0.3),
                      rospy.Time.now(),
-                     "camera_base",
-                     "root")
+                     "camera_lens",
+                     "camera_base")
+
+        # from camera_lens to camera_lens_optical
+        # rotate so that the z axis is coming out of the camera lens
+        camera_base_br = tf.TransformBroadcaster()
+        camera_base_br.sendTransform((0, 0, 0),
+                     tf.transformations.quaternion_from_euler(-pi/2.0, 0, pi/2.0),
+                     rospy.Time.now(),
+                     "camera_lens_optical",
+                     "camera_lens")
 
         rospy.sleep(1)
 
