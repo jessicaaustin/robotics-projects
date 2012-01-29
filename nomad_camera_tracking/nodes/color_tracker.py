@@ -6,6 +6,7 @@ color_tracker.py
 
 tracks a blob of a specified color
 publishes to a topic (blob_coord) the x,y coords (in the world frame) of that blob
+also publishes a marker on blob_marker topic
 
 FOV: 88cm in x direction, 73cm in y direction when ball is 1 meter away
 resolution: 640 x 480 pixels
@@ -20,6 +21,7 @@ import rospy
 from geometry_msgs.msg import PointStamped
 from geometry_msgs.msg import Point
 from rospy.exceptions import ROSInitException
+from visualization_msgs.msg import Marker
 
 import cv
 import operator
@@ -49,7 +51,10 @@ class ColorTracker():
         self.positions_x, self.positions_y = [0]*smoothness, [0]*smoothness
 
         rospy.loginfo("Successfully initialized ColorTracker")
-    
+
+    def pixel_to_meter(self, dist):
+        return dist / settings.PIXELS_TO_CM / 100
+
     def find_blob(self):
         """
         captures a frame from the camera
@@ -117,7 +122,7 @@ class ColorTracker():
         cv.WaitKey(1)
 
         if foundBlob:
-            return Point(pos_x, pos_y, 0)
+            return Point(self.pixel_to_meter(pos_x), self.pixel_to_meter(pos_y), 0)
         else:
             return None
 
@@ -142,6 +147,7 @@ if __name__ == '__main__':
     rospy.loginfo("Initializing color_tracker node")
     color_tracker = ColorTracker(settings.MY_CAMERA, settings.MIN_THRESH, settings.MAX_THRESH, settings.SMOOTHNESS)
     pub_blob_coord = rospy.Publisher('blob_coord', PointStamped)
+    pub_blob_marker = rospy.Publisher('blob_marker', Marker)
 
     while not rospy.is_shutdown():
         blob_coord = color_tracker.find_blob()
@@ -151,3 +157,18 @@ if __name__ == '__main__':
             blob_coord_stamped.header.stamp = rospy.Time.now()
             blob_coord_stamped.point = blob_coord
             pub_blob_coord.publish(blob_coord_stamped)
+            
+            blob_marker = Marker()
+            blob_marker.type = 2  # Sphere
+            blob_marker.scale.x = 0.08
+            blob_marker.scale.y = 0.08
+            blob_marker.scale.z = 0.08
+            blob_marker.color.r = 0.0
+            blob_marker.color.g = 1.0
+            blob_marker.color.b = 0.0
+            blob_marker.color.a = 1.0
+            blob_marker.header.frame_id = "camera_lens_optical"
+            blob_marker.header.stamp = rospy.Time.now()
+            blob_marker.pose.position = blob_coord
+            pub_blob_marker.publish(blob_marker)
+            
