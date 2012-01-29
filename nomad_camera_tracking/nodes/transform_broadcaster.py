@@ -2,7 +2,7 @@
 
 """
 
-static_transforms.py
+transform_broadcaster.py
 
 broadcasts the transforms for the camera static frames
 
@@ -16,7 +16,7 @@ import tf
 from math import pi
 
 if __name__ == '__main__':
-    rospy.init_node('static_transforms')
+    rospy.init_node('transforms')
 
     while not rospy.is_shutdown():
         # from root to the camera_base frame
