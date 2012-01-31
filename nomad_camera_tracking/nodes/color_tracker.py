@@ -122,7 +122,8 @@ class ColorTracker():
         cv.WaitKey(1)
 
         if foundBlob:
-            return Point(self.pixel_to_meter(pos_x), self.pixel_to_meter(pos_y), 0)
+            z = 1.0  # we assume the ball is 1 meter away (no depth perception yet!)
+            return Point(self.pixel_to_meter(pos_x), self.pixel_to_meter(pos_y), z)
         else:
             return None
 
