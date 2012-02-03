@@ -29,6 +29,8 @@ parser.add_option("", "--blue", action="store_true", dest="track_blue",
                     help="track a blue object")
 parser.add_option("", "--follow", action="store_true", dest="follow", 
                     help="follow the object by controlling camera servos")
+parser.add_option("-d", "--device", dest="serial_device", default="/dev/ttyACM0",
+                    help="which serial device to use for following. [default: %default]")
 
 (options, args) = parser.parse_args()
 MY_CAMERA = int(options.camera_device)
@@ -44,6 +46,7 @@ if options.track_blue:
     MIN_THRESH, MAX_THRESH = ( 75.0, 80.0, 80.0, 0.0), (125.0, 230.0, 230.0, 0.0)
 
 FOLLOW = options.follow
+SERIAL_DEVICE = options.serial_device
 
 # convert the given image to a binary image where all values are 
 # zero other than areas with blue hue
@@ -58,7 +61,7 @@ def thresholded_image(image):
 
 if FOLLOW:
     try:
-        panTilt = Serial('/dev/ttyACM1', 9600)
+        panTilt = Serial(SERIAL_DEVICE, 9600)
         panTilt.write('r')
     except:
         print 'Serial() failed'
@@ -148,7 +151,6 @@ while 1:
 
         x_err = abs(object_position[0] - desiredPosition[0])
         kx = x_err/50
-        print "kx = %s" % kx
         if x_err > epsilon:
             if (object_position[0] - desiredPosition[0]) > 0:
                 panTilt.write(panRight*kx)
@@ -157,7 +159,6 @@ while 1:
 
         y_err = abs(object_position[1] - desiredPosition[1])
         ky = y_err/50
-        print "ky = %s" % ky
         if y_err > epsilon:
             if (object_position[1] - desiredPosition[1]) > 0:
                 panTilt.write(tiltDown*ky)
