@@ -1,10 +1,11 @@
 #!/usr/bin/python
 
 #
-# Finding image contours after thresholding
+# Find the largest colored blob in an image
 #
 # load an image, convert to HSV color space, threshold the image
-# for yellow hue values, then find contours 
+# for yellow hue values, find contours, then iterate over them to 
+# find the largest contour
 #
 
 import cv
@@ -32,12 +33,21 @@ cv.Dilate(image_threshed, image_threshed, None, 18)
 cv.Erode(image_threshed, image_threshed, None, 10)
 cv.Canny(image_threshed, image_threshed, 10, 50, 3) 
 
-contours = cv.FindContours(cv.CloneImage(image_threshed), cv.CreateMemStorage(), cv.CV_RETR_CCOMP, cv.CV_CHAIN_APPROX_SIMPLE)
-for c in contours:
-    print c
+current_contour = cv.FindContours(cv.CloneImage(image_threshed), cv.CreateMemStorage(), cv.CV_RETR_CCOMP, cv.CV_CHAIN_APPROX_SIMPLE)
+largest_contour = current_contour
+while True:
+    current_contour = current_contour.h_next()
+    if (not current_contour):
+        break
+    if (cv.ContourArea(current_contour) > cv.ContourArea(largest_contour)):
+        largest_contour = current_contour
+
+for c in largest_contour:
     cv.Circle(image, c, 1, (0,255,0), 1)
 
-moments = cv.Moments(contours, 1)
+#cv.DrawContours(image, contours, (0,255,0), (255,0,0), 1)
+
+moments = cv.Moments(largest_contour, 1)
 center = (cv.GetSpatialMoment(moments, 1, 0)/cv.GetSpatialMoment(moments, 0, 0),cv.GetSpatialMoment(moments, 0, 1)/cv.GetSpatialMoment(moments, 0, 0))
 cv.Circle(image, (int(center[0]), int(center[1])), 2, (0,0,255), 2)
 
