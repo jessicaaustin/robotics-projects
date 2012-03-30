@@ -1,0 +1,27 @@
+
+Hobby project to run the Kinect via ROS
+
+
+SETUP:
+
+# using the instructions from here:
+http://www.ros.org/wiki/openni_kinect
+
+# install the ros electric kinect package
+sudo apt-get install ros-electric-openni-kinect
+
+# install the drivers
+# cd to a temporary installation directory and run the following:
+hg clone https://kforge.ros.org/openni/drivers openni-drivers
+cd openni-drivers
+make
+sudo make install
+cd ..
+hg clone https://kforge.ros.org/openni/openni_ros 
+rosmake openni_kinect --rosdep-install
+sudo usermod -a -G video jaustin
+
+
+TO RUN:
+
+rosmake
