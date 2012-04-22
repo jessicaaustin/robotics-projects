@@ -70,7 +70,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="158" column="36" selection-start="5703" selection-end="5703" vertical-scroll-proportion="0.5786164">
+            <state line="146" column="35" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.4606918">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -504,7 +504,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="36" selection-start="5703" selection-end="5703" vertical-scroll-proportion="0.5786164">
+        <state line="146" column="35" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.4606918">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

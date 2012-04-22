@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
                     PwmOutput motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
                     while (true) {
                         updateStatusButton(led);
-                        controlMotors(motorsM1A, motorsM1B, motorsM2A, motorsM2B);
+                        controlMotors(.5f, motorsM1A, motorsM1B, motorsM2A, motorsM2B);
                         sleep(10);
                     }
                 } catch (ConnectionLostException e) {
@@ -143,29 +143,30 @@ public class MainActivity extends Activity {
             led.write(!status_button_.isChecked());
         }
 
-        private void controlMotors(PwmOutput motorsM1A,
+        private void controlMotors(final float speed,
+                                   PwmOutput motorsM1A,
                                    PwmOutput motorsM1B,
                                    PwmOutput motorsM2A,
                                    PwmOutput motorsM2B) throws ConnectionLostException {
             if (motors_forward_button_.isChecked()) {
-                motorsM1A.setDutyCycle(1);
+                motorsM1A.setDutyCycle(speed);
                 motorsM1B.setDutyCycle(0);
                 motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(1);
+                motorsM2B.setDutyCycle(speed);
             } else if (motors_reverse_button_.isChecked()) {
                 motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(1);
-                motorsM2A.setDutyCycle(1);
+                motorsM1B.setDutyCycle(speed);
+                motorsM2A.setDutyCycle(speed);
                 motorsM2B.setDutyCycle(0);
             } else if (motors_left_button_.isChecked()) {
                 motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(1);
+                motorsM1B.setDutyCycle(speed);
                 motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(1);
+                motorsM2B.setDutyCycle(speed);
             } else if (motors_right_button_.isChecked()) {
-                motorsM1A.setDutyCycle(1);
+                motorsM1A.setDutyCycle(speed);
                 motorsM1B.setDutyCycle(0);
-                motorsM2A.setDutyCycle(1);
+                motorsM2A.setDutyCycle(speed);
                 motorsM2B.setDutyCycle(0);
             } else {
                 motorsM1A.setDutyCycle(0);
