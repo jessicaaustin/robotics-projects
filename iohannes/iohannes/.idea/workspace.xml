@@ -70,10 +70,19 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="5" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.5">
+            <state line="164" column="37" selection-start="6032" selection-end="6032" vertical-scroll-proportion="0.65007776">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DigitalOutput.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/DigitalOutput.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="118" column="16" selection-start="4150" selection-end="4150" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -117,8 +126,8 @@
       <list>
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/main.xml" />
+        <option value="$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -454,9 +463,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/DigitalOutput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="16" selection-start="4150" selection-end="4150" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="5" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.5">
+        <state line="164" column="37" selection-start="6032" selection-end="6032" vertical-scroll-proportion="0.65007776">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
