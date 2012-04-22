@@ -9,6 +9,7 @@ import android.widget.ToggleButton;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.IOIOFactory;
+import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
 
 /**
@@ -115,10 +116,10 @@ public class MainActivity extends Activity {
                     ioio_.waitForConnect();
                     setText(R.string.ioio_connected);
                     DigitalOutput led = ioio_.openDigitalOutput(STATUS_LED_PIN, true);
-                    DigitalOutput motorsM1A = ioio_.openDigitalOutput(MOTORS_M1A_PIN, true);
-                    DigitalOutput motorsM1B = ioio_.openDigitalOutput(MOTORS_M1B_PIN, true);
-                    DigitalOutput motorsM2A = ioio_.openDigitalOutput(MOTORS_M2A_PIN, true);
-                    DigitalOutput motorsM2B = ioio_.openDigitalOutput(MOTORS_M2B_PIN, true);
+                    PwmOutput motorsM1A = ioio_.openPwmOutput(MOTORS_M1A_PIN, 30);
+                    PwmOutput motorsM1B = ioio_.openPwmOutput(MOTORS_M1B_PIN, 30);
+                    PwmOutput motorsM2A = ioio_.openPwmOutput(MOTORS_M2A_PIN, 30);
+                    PwmOutput motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
                     while (true) {
                         updateStatusButton(led);
                         controlMotors(motorsM1A, motorsM1B, motorsM2A, motorsM2B);
@@ -142,32 +143,35 @@ public class MainActivity extends Activity {
             led.write(!status_button_.isChecked());
         }
 
-        private void controlMotors(DigitalOutput motorsM1A, DigitalOutput motorsM1B, DigitalOutput motorsM2A, DigitalOutput motorsM2B) throws ConnectionLostException {
+        private void controlMotors(PwmOutput motorsM1A,
+                                   PwmOutput motorsM1B,
+                                   PwmOutput motorsM2A,
+                                   PwmOutput motorsM2B) throws ConnectionLostException {
             if (motors_forward_button_.isChecked()) {
-                motorsM1A.write(true);
-                motorsM1B.write(false);
-                motorsM2A.write(false);
-                motorsM2B.write(true);
+                motorsM1A.setDutyCycle(1);
+                motorsM1B.setDutyCycle(0);
+                motorsM2A.setDutyCycle(0);
+                motorsM2B.setDutyCycle(1);
             } else if (motors_reverse_button_.isChecked()) {
-                motorsM1A.write(false);
-                motorsM1B.write(true);
-                motorsM2A.write(true);
-                motorsM2B.write(false);
+                motorsM1A.setDutyCycle(0);
+                motorsM1B.setDutyCycle(1);
+                motorsM2A.setDutyCycle(1);
+                motorsM2B.setDutyCycle(0);
             } else if (motors_left_button_.isChecked()) {
-                motorsM1A.write(false);
-                motorsM1B.write(true);
-                motorsM2A.write(false);
-                motorsM2B.write(true);
+                motorsM1A.setDutyCycle(0);
+                motorsM1B.setDutyCycle(1);
+                motorsM2A.setDutyCycle(0);
+                motorsM2B.setDutyCycle(1);
             } else if (motors_right_button_.isChecked()) {
-                motorsM1A.write(true);
-                motorsM1B.write(false);
-                motorsM2A.write(true);
-                motorsM2B.write(false);
+                motorsM1A.setDutyCycle(1);
+                motorsM1B.setDutyCycle(0);
+                motorsM2A.setDutyCycle(1);
+                motorsM2B.setDutyCycle(0);
             } else {
-                motorsM1A.write(false);
-                motorsM1B.write(false);
-                motorsM2A.write(false);
-                motorsM2B.write(false);
+                motorsM1A.setDutyCycle(0);
+                motorsM1B.setDutyCycle(0);
+                motorsM2A.setDutyCycle(0);
+                motorsM2B.setDutyCycle(0);
             }
         }
 

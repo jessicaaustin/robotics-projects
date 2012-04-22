@@ -70,10 +70,28 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="37" selection-start="6032" selection-end="6032" vertical-scroll-proportion="0.65007776">
+            <state line="158" column="36" selection-start="5703" selection-end="5703" vertical-scroll-proportion="0.5786164">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConnectionLostException.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/exception/ConnectionLostException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="13" selection-start="1685" selection-end="1685" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IOIO.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/IOIO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="157" column="16" selection-start="6326" selection-end="6326" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -470,9 +488,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/IOIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="157" column="16" selection-start="6326" selection-end="6326" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/exception/ConnectionLostException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="13" selection-start="1685" selection-end="1685" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="37" selection-start="6032" selection-end="6032" vertical-scroll-proportion="0.65007776">
+        <state line="158" column="36" selection-start="5703" selection-end="5703" vertical-scroll-proportion="0.5786164">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
