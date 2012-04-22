@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		title_ = (TextView) findViewById(R.id.title);
-		button_ = (ToggleButton) findViewById(R.id.button);
+		button_ = (ToggleButton) findViewById(R.id.status_test);
 	}
 
 	/**
