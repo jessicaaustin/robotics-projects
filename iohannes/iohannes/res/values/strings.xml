@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello, IOIO!</string>
+    <string name="app_name">iohannes</string>
+    <string name="wait_ioio">Waiting for IOIO to connect...</string>
+    <string name="ioio_connected">IOIO connected!</string>
+    <string name="status_test">Check IOIO Connection</string>
+    <string name="motors_forward">Move forward</string>
+</resources>

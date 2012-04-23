@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 android:stretchColumns="1">
+
+        <View android:layout_height="2dip"
+              android:background="#FF909090"/>
+
+        <TableRow android:padding="12dip">
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/hello"
+                      android:id="@+id/title"/>
+        </TableRow>
+
+        <View android:layout_height="2dip"
+              android:background="#FF909090"/>
+        <View android:layout_height="2dip"
+              android:background="#FF909090"/>
+
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Test connection"/>
+            <ToggleButton android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/status_test"/>
+        </TableRow>
+
+        <View android:layout_height="2dip"
+              android:background="#FF909090"/>
+
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Forward"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_forward"/>
+        </TableRow>
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Backward"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_backward"/>
+        </TableRow>
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Left"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_left"/>
+        </TableRow>
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Right"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_right"/>
+        </TableRow>
+
+        <View android:layout_height="2dip"
+              android:background="#FF909090"/>
+
+    </TableLayout>
+</LinearLayout>

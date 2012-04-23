@@ -1,0 +1,23 @@
+iohannes: hobby robotics project using the SparkFun IOIO board
+
+components:
+
+Lynxmotion Tri-Track Chassis
+  http://www.lynxmotion.com/c-120-no-electronics-kit.aspx
+Robokits 5A Dual Motor Driver (RKI-1004)
+  http://robokits.co.in/shop/index.php?main_page=product_info&products_id=15
+SparkFun IOIO 
+  Hardware ID: SPRK0016 Bootloader ID: IOIO0301 Firmware ID: IOIO0311
+  http://www.sparkfun.com/products/10748
+HTC Evo Android phone
+  Android v2.2 Froyo
+
+directories:
+
+IOIOLib
+  v3.11 downloaded from https://github.com/ytai/ioio/wiki/Downloads
+iohannes
+  android project
+arduino
+  simple projects for testing individual components
+
