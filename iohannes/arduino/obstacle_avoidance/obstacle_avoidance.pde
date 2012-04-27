@@ -33,9 +33,30 @@ void loop() {
   if (distToObs > 10) {
     forward(distToObs*speedMultiplier);
   } else {
-    stop();
+    clearObstacle();
   }
   delay(loopDelay);
+}
+
+void clearObstacle() {
+  pause();
+  for (int i=0; i<55; i++) {
+    backward(200);
+    delay(loopDelay);
+  }
+  pause();
+  for (int i=0; i<55; i++) {
+    left(200);
+    delay(loopDelay);
+  }
+  pause();
+}
+
+void pause() {
+  for (int i=0; i<30; i++) {
+    stop();
+    delay(loopDelay);
+  }
 }
 
 void forward(int speed) {
