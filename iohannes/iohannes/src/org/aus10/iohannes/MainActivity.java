@@ -13,6 +13,9 @@ import android.widget.ToggleButton;
 public class MainActivity extends Activity {
     private TextView title_;
     private ToggleButton motorForwardButton;
+    private ToggleButton motorReverseButton;
+    private ToggleButton motorLeftButton;
+    private ToggleButton motorRightButton;
     public static final String INTENT_CONNECTED = "ioioConnected";
     public static final String INTENT_PARAM_CONNECTED = "status";
 
@@ -31,9 +34,27 @@ public class MainActivity extends Activity {
         title_ = (TextView) findViewById(R.id.title);
         registerReceiver(broadcastReceiver, intentFilter);
         motorForwardButton = (ToggleButton) findViewById(R.id.motor_forward);
+        motorReverseButton = (ToggleButton) findViewById(R.id.motor_backward);
+        motorLeftButton = (ToggleButton) findViewById(R.id.motor_left);
+        motorRightButton = (ToggleButton) findViewById(R.id.motor_right);
         motorForwardButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.FORWARD));
+            }
+        });
+        motorReverseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.REVERSE));
+            }
+        });
+        motorLeftButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.LEFT));
+            }
+        });
+        motorRightButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.RIGHT));
             }
         });
     }

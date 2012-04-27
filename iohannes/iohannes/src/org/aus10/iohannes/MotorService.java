@@ -41,7 +41,11 @@ public class MotorService extends Service {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             MotorControl direction = (MotorControl) intent.getSerializableExtra(INTENT_PARAM_MOTORS);
-            currentDirection = direction;
+            if (currentDirection == direction) {
+                currentDirection = MotorControl.STOP;
+            } else {
+                currentDirection = direction;
+            }
         }
     };
 
