@@ -23,6 +23,30 @@
         <View android:layout_height="2dip"
               android:background="#FF909090"/>
 
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Forward"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_forward"/>
+        </TableRow>
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Backward"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_backward"/>
+        </TableRow>
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Left"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_left"/>
+        </TableRow>
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Motors Right"/>
+            <ToggleButton android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/motor_right"/>
+        </TableRow>
 
     </TableLayout>
 </LinearLayout>

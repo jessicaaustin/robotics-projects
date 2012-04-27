@@ -2,11 +2,13 @@ package org.aus10.iohannes;
 
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.IOIOFactory;
 import ioio.lib.api.PwmOutput;
@@ -26,9 +28,37 @@ public class MotorService extends Service {
 
     private final IOIOThread ioioThread = new IOIOThread();
 
+    public static final String INTENT_MOTORS = "motorControl";
+    public static final String INTENT_PARAM_MOTORS = "manualDirection";
+
+    public enum MotorControl {
+        FORWARD, REVERSE, LEFT, RIGHT, STOP;
+    }
+
+    private MotorControl currentDirection;
+
+    private final IntentFilter intentFilter = new IntentFilter(INTENT_MOTORS);
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            MotorControl direction = (MotorControl) intent.getSerializableExtra(INTENT_PARAM_MOTORS);
+            currentDirection = direction;
+        }
+    };
+
+    public static Intent createIntentToMoveMotor(MotorService.MotorControl direction) {
+        return new Intent(MotorService.INTENT_MOTORS).putExtra(MotorService.INTENT_PARAM_MOTORS, direction);
+    }
+
     public void onCreate() {
         super.onCreate();
+        currentDirection = MotorControl.STOP;
+        registerReceiver(broadcastReceiver, intentFilter);
         ioioThread.start();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 
     private class IOIOThread extends Thread {
@@ -42,11 +72,10 @@ public class MotorService extends Service {
         private static final int MOTORS_M2B_PIN = 6;
         private IOIO ioio_;
         private boolean abort_ = false;
-
-        private boolean motorsForward = false;
-        private boolean motorsReverse = false;
-        private boolean motorsLeft = false;
-        private boolean motorsRight = false;
+        private PwmOutput motorsM1A;
+        private PwmOutput motorsM1B;
+        private PwmOutput motorsM2A;
+        private PwmOutput motorsM2B;
 
         public void run() {
             while (true) {
@@ -61,14 +90,13 @@ public class MotorService extends Service {
                     notifyActivityWithMessage("IOIO Connecting...");
                     ioio_.waitForConnect();
                     notifyActivityWithMessage("IOIO Connected");
-                    PwmOutput motorsM1A = ioio_.openPwmOutput(MOTORS_M1A_PIN, 30);
-                    PwmOutput motorsM1B = ioio_.openPwmOutput(MOTORS_M1B_PIN, 30);
-                    PwmOutput motorsM2A = ioio_.openPwmOutput(MOTORS_M2A_PIN, 30);
-                    PwmOutput motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
+                    motorsM1A = ioio_.openPwmOutput(MOTORS_M1A_PIN, 30);
+                    motorsM1B = ioio_.openPwmOutput(MOTORS_M1B_PIN, 30);
+                    motorsM2A = ioio_.openPwmOutput(MOTORS_M2A_PIN, 30);
+                    motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
 
                     while (!abort_) {
-                        motorsForward = true;
-                        controlMotors(.5f, motorsM1A, motorsM1B, motorsM2A, motorsM2B);
+                        controlMotors(.5f);
                         Thread.sleep(10);
                     }
 
@@ -88,6 +116,26 @@ public class MotorService extends Service {
             }
         }
 
+        private void controlMotors(final float speed) throws ConnectionLostException {
+            switch (currentDirection) {
+                case FORWARD:
+                    controlMotor(0, speed, 0, speed);
+                    break;
+                case REVERSE:
+                    controlMotor(speed, 0, speed, 0);
+                    break;
+                case LEFT:
+                    controlMotor(speed, 0, 0, speed);
+                    break;
+                case RIGHT:
+                    controlMotor(0, speed, speed, 0);
+                    break;
+                default:
+                    controlMotor(0, 0, 0, 0);
+                    break;
+            }
+        }
+
         /**
          * State      A  B
          * FWD        0  1
@@ -96,37 +144,11 @@ public class MotorService extends Service {
          * short      1  1
          * circuit!
          */
-        private void controlMotors(final float speed,
-                                   PwmOutput motorsM1A,
-                                   PwmOutput motorsM1B,
-                                   PwmOutput motorsM2A,
-                                   PwmOutput motorsM2B) throws ConnectionLostException {
-            if (motorsForward) {
-                motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(speed);
-                motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(speed);
-            } else if (motorsReverse) {
-                motorsM1A.setDutyCycle(speed);
-                motorsM1B.setDutyCycle(0);
-                motorsM2A.setDutyCycle(speed);
-                motorsM2B.setDutyCycle(0);
-            } else if (motorsLeft) {
-                motorsM1A.setDutyCycle(speed);
-                motorsM1B.setDutyCycle(0);
-                motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(speed);
-            } else if (motorsRight) {
-                motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(speed);
-                motorsM2A.setDutyCycle(speed);
-                motorsM2B.setDutyCycle(0);
-            } else {
-                motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(0);
-                motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(0);
-            }
+        private void controlMotor(float m1a, float m1b, float m2a, float m2b) throws ConnectionLostException {
+            motorsM1A.setDutyCycle(m1a);
+            motorsM1B.setDutyCycle(m1b);
+            motorsM2A.setDutyCycle(m2a);
+            motorsM2B.setDutyCycle(m2b);
         }
 
         /**
@@ -150,7 +172,6 @@ public class MotorService extends Service {
     }
 
     private final IBinder binder = new MotorServiceBinder();
-
 
     public IBinder onBind(Intent arg0) {
         return binder;
