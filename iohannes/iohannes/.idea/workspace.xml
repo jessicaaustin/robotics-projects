@@ -70,10 +70,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="146" column="35" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.4606918">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="174" column="40" selection-start="6314" selection-end="6314" vertical-scroll-proportion="1.6509434">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -90,7 +88,34 @@
       <file leaf-file-name="IOIO.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/IOIO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="157" column="16" selection-start="6326" selection-end="6326" vertical-scroll-proportion="0.0">
+            <state line="127" column="0" selection-start="5116" selection-end="5116" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IOIOImpl.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/impl/IOIOImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="108" column="36" selection-start="4307" selection-end="4319" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SocketIOIOConnection.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/impl/SocketIOIOConnection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="65" column="69" selection-start="2575" selection-end="2601" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Log.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///opt/local/android-sdk-mac_x86/platforms/android-15/android.jar!/android/util/Log.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="19" selection-start="156" selection-end="156" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -108,7 +133,7 @@
       <file leaf-file-name="main.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="56" selection-start="1754" selection-end="1767" vertical-scroll-proportion="-6.090909">
+            <state line="39" column="56" selection-start="1754" selection-end="1767" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -164,7 +189,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="2" />
+    <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -179,6 +204,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -249,20 +275,19 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="Favorites" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Project" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RunManager">
@@ -346,6 +371,26 @@
         <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="CHOOSE_DEVICE_MANUALLY" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <list size="0" />
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -380,7 +425,6 @@
       <window_info id="Code explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -391,6 +435,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32944608" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -455,59 +500,64 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/exception/ConnectionLostException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="13" selection-start="1685" selection-end="1685" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/IOIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="127" column="0" selection-start="5116" selection-end="5116" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/impl/IOIOImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="36" selection-start="4307" selection-end="4319" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="jar:///opt/local/android-sdk-mac_x86/platforms/android-15/android.jar!/android/util/Log.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="52" selection-start="539" selection-end="539" vertical-scroll-proportion="0.0">
+        <state line="5" column="19" selection-start="156" selection-end="156" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/DigitalOutput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="16" selection-start="4150" selection-end="4150" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="56" selection-start="1754" selection-end="1767" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="18" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="5" column="18" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="56" selection-start="1754" selection-end="1767" vertical-scroll-proportion="-6.090909">
-          <folding />
-        </state>
+        <state line="9" column="52" selection-start="539" selection-end="539" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/DigitalOutput.java">
+    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/impl/SocketIOIOConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="16" selection-start="4150" selection-end="4150" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/IOIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="16" selection-start="6326" selection-end="6326" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../IOIOLib/src/ioio/lib/api/exception/ConnectionLostException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="13" selection-start="1685" selection-end="1685" vertical-scroll-proportion="0.0">
+        <state line="65" column="69" selection-start="2575" selection-end="2601" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/aus10/iohannes/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="35" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.4606918">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="174" column="40" selection-start="6314" selection-end="6314" vertical-scroll-proportion="1.6509434">
+          <folding />
         </state>
       </provider>
     </entry>
