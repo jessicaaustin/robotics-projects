@@ -40,21 +40,33 @@ public class MainActivity extends Activity {
         motorForwardButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.FORWARD));
+                motorReverseButton.setChecked(false);
+                motorLeftButton.setChecked(false);
+                motorRightButton.setChecked(false);
             }
         });
         motorReverseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.REVERSE));
+                motorForwardButton.setChecked(false);
+                motorLeftButton.setChecked(false);
+                motorRightButton.setChecked(false);
             }
         });
         motorLeftButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.LEFT));
+                motorForwardButton.setChecked(false);
+                motorReverseButton.setChecked(false);
+                motorRightButton.setChecked(false);
             }
         });
         motorRightButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.RIGHT));
+                motorForwardButton.setChecked(false);
+                motorReverseButton.setChecked(false);
+                motorLeftButton.setChecked(false);
             }
         });
     }
