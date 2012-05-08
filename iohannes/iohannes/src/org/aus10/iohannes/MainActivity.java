@@ -16,14 +16,23 @@ public class MainActivity extends Activity {
     private ToggleButton motorReverseButton;
     private ToggleButton motorLeftButton;
     private ToggleButton motorRightButton;
+    private TextView ultrasoundDistance;
     public static final String INTENT_CONNECTED = "ioioConnected";
     public static final String INTENT_PARAM_CONNECTED = "status";
+    public static final String INTENT_PARAM_OBSTACLE_DISTANCE = "obstacleDistanceInCm";
 
     private final IntentFilter intentFilter = new IntentFilter(INTENT_CONNECTED);
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String stringExtra = intent.getStringExtra(INTENT_PARAM_CONNECTED);
-            title_.setText(stringExtra);
+            if (stringExtra != null) {
+                title_.setText(stringExtra);
+            }
+            int obstacleDistanceInCm = intent.getIntExtra(INTENT_PARAM_OBSTACLE_DISTANCE, -1);
+            if (obstacleDistanceInCm != -1) {
+                ultrasoundDistance.setText(Integer.toString(obstacleDistanceInCm));
+            }
+
         }
     };
 
@@ -32,6 +41,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         title_ = (TextView) findViewById(R.id.title);
+        ultrasoundDistance = (TextView) findViewById(R.id.ultrasound_distance);
         registerReceiver(broadcastReceiver, intentFilter);
         motorForwardButton = (ToggleButton) findViewById(R.id.motor_forward);
         motorReverseButton = (ToggleButton) findViewById(R.id.motor_backward);

@@ -9,8 +9,10 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.IOIOFactory;
+import ioio.lib.api.PulseInput;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
 
@@ -80,6 +82,9 @@ public class MotorService extends Service {
         private PwmOutput motorsM1B;
         private PwmOutput motorsM2A;
         private PwmOutput motorsM2B;
+        private DigitalOutput ultrasoundTrigger;
+        private PulseInput ultrasoundEcho;
+
 
         public void run() {
             while (true) {
@@ -98,10 +103,13 @@ public class MotorService extends Service {
                     motorsM1B = ioio_.openPwmOutput(MOTORS_M1B_PIN, 30);
                     motorsM2A = ioio_.openPwmOutput(MOTORS_M2A_PIN, 30);
                     motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
+                    ultrasoundEcho = ioio_.openPulseInput(7, PulseInput.PulseMode.POSITIVE);
+                    ultrasoundTrigger = ioio_.openDigitalOutput(2);
 
                     while (!abort_) {
                         controlMotors(.5f);
-                        Thread.sleep(10);
+                        notifyActivityWithObstacleDistance(checkForObstacles());
+                        Thread.sleep(20);
                     }
 
                 } catch (ConnectionLostException e) {
@@ -140,6 +148,20 @@ public class MotorService extends Service {
             }
         }
 
+        private int checkForObstacles() throws ConnectionLostException, InterruptedException {
+            int echoSeconds;
+            int echoDistanceCm;
+            // read HC-SR04 ultrasonic sensor
+            ultrasoundTrigger.write(false);
+            sleep(5);
+            ultrasoundTrigger.write(true);
+            sleep(1);
+            ultrasoundTrigger.write(false);
+            echoSeconds = (int) (ultrasoundEcho.getDuration() * 1000 * 1000);
+            echoDistanceCm = echoSeconds / 29 / 2;
+            return echoDistanceCm;
+        }
+
         /**
          * State      A  B
          * FWD        0  1
@@ -172,6 +194,11 @@ public class MotorService extends Service {
 
     private void notifyActivityWithMessage(final String message) {
         final Intent ioioConnected = new Intent(MainActivity.INTENT_CONNECTED).putExtra(MainActivity.INTENT_PARAM_CONNECTED, message);
+        sendBroadcast(ioioConnected);
+    }
+
+    private void notifyActivityWithObstacleDistance(final int distanceInCm) {
+        final Intent ioioConnected = new Intent(MainActivity.INTENT_CONNECTED).putExtra(MainActivity.INTENT_PARAM_OBSTACLE_DISTANCE, distanceInCm);
         sendBroadcast(ioioConnected);
     }
 

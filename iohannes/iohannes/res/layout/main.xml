@@ -48,5 +48,17 @@
                           android:id="@+id/motor_right"/>
         </TableRow>
 
+        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
+            <TextView android:text="Obstacle range (cm)"/>
+
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:textSize="20sp"
+                      android:text="0"
+                      android:id="@+id/ultrasound_distance"/>
+        </TableRow>
+
     </TableLayout>
+
 </LinearLayout>
