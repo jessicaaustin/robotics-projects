@@ -20,13 +20,13 @@ import ioio.lib.api.exception.ConnectionLostException;
  * This is the thread that does the IOIO interaction.
  * <p/>
  * It first creates a IOIO instance and wait for a connection to be
- * established. Then it starts doing the main work of opening the LED pin
- * and constantly updating it to match the toggle button's state.
+ * established. Then it starts doing the main work of controlling the
+ * motors and reading from the ultrasound distance sensors.
  * <p/>
  * Whenever a connection drops, it tries to reconnect, unless this is a
  * result of abort().
  */
-public class MotorService extends Service {
+public class IOIOService extends Service {
 
     private final IOIOThread ioioThread = new IOIOThread();
 
@@ -51,8 +51,8 @@ public class MotorService extends Service {
         }
     };
 
-    public static Intent createIntentToMoveMotor(MotorService.MotorControl direction) {
-        return new Intent(MotorService.INTENT_MOTORS).putExtra(MotorService.INTENT_PARAM_MOTORS, direction);
+    public static Intent createIntentToMoveMotor(IOIOService.MotorControl direction) {
+        return new Intent(IOIOService.INTENT_MOTORS).putExtra(IOIOService.INTENT_PARAM_MOTORS, direction);
     }
 
     public void onCreate() {
@@ -97,24 +97,37 @@ public class MotorService extends Service {
                 try {
 
                     notifyActivityWithMessage("IOIO Connecting...");
+
+                    // block until we get a connection to the IOIO
                     ioio_.waitForConnect();
                     notifyActivityWithMessage("IOIO Connected");
+
+                    // setup output connections to the motors
                     motorsM1A = ioio_.openPwmOutput(MOTORS_M1A_PIN, 30);
                     motorsM1B = ioio_.openPwmOutput(MOTORS_M1B_PIN, 30);
                     motorsM2A = ioio_.openPwmOutput(MOTORS_M2A_PIN, 30);
                     motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
+
+                    // setup connection to the ultrasound sensor
                     ultrasoundEcho = ioio_.openPulseInput(7, PulseInput.PulseMode.POSITIVE);
                     ultrasoundTrigger = ioio_.openDigitalOutput(2);
 
                     while (!abort_) {
-                        controlMotors(.5f);
-                        notifyActivityWithObstacleDistance(checkForObstacles());
+                        // do stuff!
+
+                        float speed = .5f;
+                        controlMotors(speed);
+
+                        int obstacleDistanceInCm = checkForObstacles();
+                        notifyActivityWithObstacleDistance(obstacleDistanceInCm);
+
+                        // spin for a little while
                         Thread.sleep(20);
                     }
 
                 } catch (ConnectionLostException e) {
                 } catch (Exception e) {
-                    Log.e("HelloIOIOPower", "Unexpected exception caught", e);
+                    Log.e("IOHANNES", "Unexpected exception caught", e);
                     ioio_.disconnect();
                     notifyActivityWithMessage("IOIO Disconnected... due to " + e);
                     break;
@@ -149,6 +162,7 @@ public class MotorService extends Service {
         }
 
         private int checkForObstacles() throws ConnectionLostException, InterruptedException {
+            Log.i("IOHANNES", "checking for obstacles...");
             int echoSeconds;
             int echoDistanceCm;
             // read HC-SR04 ultrasonic sensor
@@ -159,6 +173,7 @@ public class MotorService extends Service {
             ultrasoundTrigger.write(false);
             echoSeconds = (int) (ultrasoundEcho.getDuration() * 1000 * 1000);
             echoDistanceCm = echoSeconds / 29 / 2;
+            Log.i("IOHANNES", "obstacle distance = " + echoDistanceCm);
             return echoDistanceCm;
         }
 
@@ -209,8 +224,8 @@ public class MotorService extends Service {
     }
 
     public class MotorServiceBinder extends Binder {
-        public MotorService getMotorService() {
-            return MotorService.this;
+        public IOIOService getMotorService() {
+            return IOIOService.this;
         }
     }
 

@@ -7,11 +7,11 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 public class IohannesApp extends Application {
-    private MotorService motorService_;
+    private IOIOService ioioService;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            motorService_ = ((MotorService.MotorServiceBinder) iBinder).getMotorService();
+            ioioService = ((IOIOService.MotorServiceBinder) iBinder).getMotorService();
         }
 
         public void onServiceDisconnected(ComponentName componentName) { }
@@ -19,7 +19,7 @@ public class IohannesApp extends Application {
 
     public void onCreate() {
         super.onCreate();
-        startService(new Intent(this, MotorService.class));
-        bindService(new Intent(this, MotorService.class), serviceConnection, BIND_AUTO_CREATE);
+        startService(new Intent(this, IOIOService.class));
+        bindService(new Intent(this, IOIOService.class), serviceConnection, BIND_AUTO_CREATE);
     }
 }

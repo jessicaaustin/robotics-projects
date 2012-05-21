@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
         motorRightButton = (ToggleButton) findViewById(R.id.motor_right);
         motorForwardButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.FORWARD));
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.FORWARD));
                 motorReverseButton.setChecked(false);
                 motorLeftButton.setChecked(false);
                 motorRightButton.setChecked(false);
@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
         });
         motorReverseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.REVERSE));
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.REVERSE));
                 motorForwardButton.setChecked(false);
                 motorLeftButton.setChecked(false);
                 motorRightButton.setChecked(false);
@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         });
         motorLeftButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.LEFT));
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.LEFT));
                 motorForwardButton.setChecked(false);
                 motorReverseButton.setChecked(false);
                 motorRightButton.setChecked(false);
@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         });
         motorRightButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(MotorService.createIntentToMoveMotor(MotorService.MotorControl.RIGHT));
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.RIGHT));
                 motorForwardButton.setChecked(false);
                 motorReverseButton.setChecked(false);
                 motorLeftButton.setChecked(false);

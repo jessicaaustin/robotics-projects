@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".MotorService"></service>
+        <service android:name=".IOIOService"></service>
 
     </application>
 </manifest>
