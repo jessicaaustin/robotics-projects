@@ -1,0 +1,16 @@
+<package>
+  <description brief="ros_kinect">
+
+     ros_kinect
+
+  </description>
+  <author>Jessica Austin</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ros_kinect</url>
+  <depend package="rviz"/>
+  <depend package="openni_camera"/>
+
+</package>
+
+

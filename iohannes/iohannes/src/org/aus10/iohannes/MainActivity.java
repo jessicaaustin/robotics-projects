@@ -1,251 +1,99 @@
 package org.aus10.iohannes;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import ioio.lib.api.DigitalOutput;
-import ioio.lib.api.IOIO;
-import ioio.lib.api.IOIOFactory;
-import ioio.lib.api.PwmOutput;
-import ioio.lib.api.exception.ConnectionLostException;
 
-/**
- * This is the main activity of the iohannes application.
- */
 public class MainActivity extends Activity {
-    /**
-     * The text displayed at the top of the page.
-     */
     private TextView title_;
-    /**
-     * Our buttons.
-     */
-    private ToggleButton status_button_;
-    private ToggleButton motors_forward_button_;
-    private ToggleButton motors_reverse_button_;
-    private ToggleButton motors_left_button_;
-    private ToggleButton motors_right_button_;
-    /**
-     * The thread that interacts with the IOIO.
-     */
-    private IOIOThread ioio_thread_;
-    /**
-     * The pins we're using on the board.
-     */
-    private static final int STATUS_LED_PIN = 0;
-    private static final int MOTORS_M1A_PIN = 3;
-    private static final int MOTORS_M1B_PIN = 4;
-    private static final int MOTORS_M2A_PIN = 5;
-    private static final int MOTORS_M2B_PIN = 6;
+    private ToggleButton motorForwardButton;
+    private ToggleButton motorReverseButton;
+    private ToggleButton motorLeftButton;
+    private ToggleButton motorRightButton;
+    private TextView ultrasoundDistance;
+    public static final String INTENT_CONNECTED = "ioioConnected";
+    public static final String INTENT_PARAM_CONNECTED = "status";
+    public static final String INTENT_PARAM_OBSTACLE_DISTANCE = "obstacleDistanceInCm";
 
-    /**
-     * Called when the activity is first created. Here we normally initialize
-     * our GUI.
-     */
+    private final IntentFilter intentFilter = new IntentFilter(INTENT_CONNECTED);
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String stringExtra = intent.getStringExtra(INTENT_PARAM_CONNECTED);
+            if (stringExtra != null) {
+                title_.setText(stringExtra);
+            }
+            int obstacleDistanceInCm = intent.getIntExtra(INTENT_PARAM_OBSTACLE_DISTANCE, -1);
+            if (obstacleDistanceInCm != -1) {
+                ultrasoundDistance.setText(Integer.toString(obstacleDistanceInCm));
+            }
+
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         title_ = (TextView) findViewById(R.id.title);
-        status_button_ = (ToggleButton) findViewById(R.id.status_test);
-        motors_forward_button_ = (ToggleButton) findViewById(R.id.motor_forward);
-        motors_reverse_button_ = (ToggleButton) findViewById(R.id.motor_backward);
-        motors_left_button_ = (ToggleButton) findViewById(R.id.motor_left);
-        motors_right_button_ = (ToggleButton) findViewById(R.id.motor_right);
-        setupButtonClickListeners();
+        ultrasoundDistance = (TextView) findViewById(R.id.ultrasound_distance);
+        registerReceiver(broadcastReceiver, intentFilter);
+        motorForwardButton = (ToggleButton) findViewById(R.id.motor_forward);
+        motorReverseButton = (ToggleButton) findViewById(R.id.motor_backward);
+        motorLeftButton = (ToggleButton) findViewById(R.id.motor_left);
+        motorRightButton = (ToggleButton) findViewById(R.id.motor_right);
+        motorForwardButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.FORWARD));
+                motorReverseButton.setChecked(false);
+                motorLeftButton.setChecked(false);
+                motorRightButton.setChecked(false);
+            }
+        });
+        motorReverseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.REVERSE));
+                motorForwardButton.setChecked(false);
+                motorLeftButton.setChecked(false);
+                motorRightButton.setChecked(false);
+            }
+        });
+        motorLeftButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.LEFT));
+                motorForwardButton.setChecked(false);
+                motorReverseButton.setChecked(false);
+                motorRightButton.setChecked(false);
+            }
+        });
+        motorRightButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.RIGHT));
+                motorForwardButton.setChecked(false);
+                motorReverseButton.setChecked(false);
+                motorLeftButton.setChecked(false);
+            }
+        });
     }
 
-    /**
-     * Called when the application is resumed (also when first started). Here is
-     * where we'll create our IOIO thread.
-     */
     @Override
     protected void onResume() {
         super.onResume();
-        ioio_thread_ = new IOIOThread();
-        ioio_thread_.start();
+
     }
 
-    /**
-     * Called when the application is paused. We want to disconnect with the
-     * IOIO at this point, as the user is no longer interacting with our
-     * application.
-     */
     @Override
     protected void onPause() {
         super.onPause();
-        ioio_thread_.abort();
-        try {
-            ioio_thread_.join();
-        } catch (InterruptedException e) {
-        }
     }
 
-    /**
-     * This is the thread that does the IOIO interaction.
-     * <p/>
-     * It first creates a IOIO instance and wait for a connection to be
-     * established. Then it starts doing the main work of opening the LED pin
-     * and constantly updating it to match the toggle button's state.
-     * <p/>
-     * Whenever a connection drops, it tries to reconnect, unless this is a
-     * result of abort().
-     */
-    class IOIOThread extends Thread {
-        private IOIO ioio_;
-        private boolean abort_ = false;
-
-        /**
-         * Thread body.
-         */
-        @Override
-        public void run() {
-            super.run();
-            while (true) {
-                synchronized (this) {
-                    if (abort_) {
-                        break;
-                    }
-                    ioio_ = IOIOFactory.create();
-                }
-                try {
-                    setText(R.string.wait_ioio);
-                    ioio_.waitForConnect();
-                    setText(R.string.ioio_connected);
-                    DigitalOutput led = ioio_.openDigitalOutput(STATUS_LED_PIN, true);
-                    PwmOutput motorsM1A = ioio_.openPwmOutput(MOTORS_M1A_PIN, 30);
-                    PwmOutput motorsM1B = ioio_.openPwmOutput(MOTORS_M1B_PIN, 30);
-                    PwmOutput motorsM2A = ioio_.openPwmOutput(MOTORS_M2A_PIN, 30);
-                    PwmOutput motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
-                    while (true) {
-                        updateStatusButton(led);
-                        controlMotors(.5f, motorsM1A, motorsM1B, motorsM2A, motorsM2B);
-                        sleep(10);
-                    }
-                } catch (ConnectionLostException e) {
-                } catch (Exception e) {
-                    Log.e("HelloIOIOPower", "Unexpected exception caught", e);
-                    ioio_.disconnect();
-                    break;
-                } finally {
-                    try {
-                        ioio_.waitForDisconnect();
-                    } catch (InterruptedException e) {
-                    }
-                }
-            }
-        }
-
-        private void updateStatusButton(DigitalOutput led) throws ConnectionLostException {
-            led.write(!status_button_.isChecked());
-        }
-
-        /**
-         *   State      A  B
-         *   FWD        0  1
-         *   REV        1  0
-         *   STOP       0  0
-         *   short      1  1
-         *    circuit!
-         */
-        private void controlMotors(final float speed,
-                                   PwmOutput motorsM1A,
-                                   PwmOutput motorsM1B,
-                                   PwmOutput motorsM2A,
-                                   PwmOutput motorsM2B) throws ConnectionLostException {
-            if (motors_forward_button_.isChecked()) {
-                motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(speed);
-                motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(speed);
-            } else if (motors_reverse_button_.isChecked()) {
-                motorsM1A.setDutyCycle(speed);
-                motorsM1B.setDutyCycle(0);
-                motorsM2A.setDutyCycle(speed);
-                motorsM2B.setDutyCycle(0);
-            } else if (motors_left_button_.isChecked()) {
-                motorsM1A.setDutyCycle(speed);
-                motorsM1B.setDutyCycle(0);
-                motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(speed);
-            } else if (motors_right_button_.isChecked()) {
-                motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(speed);
-                motorsM2A.setDutyCycle(speed);
-                motorsM2B.setDutyCycle(0);
-            } else {
-                motorsM1A.setDutyCycle(0);
-                motorsM1B.setDutyCycle(0);
-                motorsM2A.setDutyCycle(0);
-                motorsM2B.setDutyCycle(0);
-            }
-        }
-
-        /**
-         * Abort the connection.
-         * <p/>
-         * This is a little tricky synchronization-wise: we need to be handle
-         * the case of abortion happening before the IOIO instance is created or
-         * during its creation.
-         */
-        synchronized public void abort() {
-            abort_ = true;
-            if (ioio_ != null) {
-                ioio_.disconnect();
-            }
-        }
-
-        /**
-         * Set the text line on top of the screen.
-         *
-         * @param id The string ID of the message to present.
-         */
-        private void setText(final int id) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    title_.setText(getString(id));
-                }
-            });
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
-
-    void setupButtonClickListeners() {
-        motors_forward_button_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                motors_reverse_button_.setChecked(false);
-                motors_left_button_.setChecked(false);
-                motors_right_button_.setChecked(false);
-            }
-        });
-        motors_reverse_button_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                motors_forward_button_.setChecked(false);
-                motors_left_button_.setChecked(false);
-                motors_right_button_.setChecked(false);
-            }
-        });
-        motors_left_button_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                motors_forward_button_.setChecked(false);
-                motors_reverse_button_.setChecked(false);
-                motors_right_button_.setChecked(false);
-            }
-        });
-        motors_right_button_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                motors_forward_button_.setChecked(false);
-                motors_reverse_button_.setChecked(false);
-                motors_left_button_.setChecked(false);
-            }
-        });
-    }
-
 }
