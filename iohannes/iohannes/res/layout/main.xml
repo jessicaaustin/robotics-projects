@@ -3,62 +3,79 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:layout_width="fill_parent"
-                 android:layout_height="fill_parent"
-                 android:stretchColumns="1">
 
-        <View android:layout_height="2dip"
-              android:background="#FF909090"/>
+    <View android:layout_marginBottom="20dip"
+          android:layout_width="fill_parent"
+          android:layout_height="2dip"
+          android:background="#FF909090"/>
 
-        <TableRow android:padding="12dip">
-            <TextView android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:text="not connected..."
-                      android:id="@+id/title"/>
-        </TableRow>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="not connected..."
+              android:id="@+id/title"/>
 
-        <View android:layout_height="2dip"
-              android:background="#FF909090"/>
-        <View android:layout_height="2dip"
-              android:background="#FF909090"/>
+    <View android:layout_marginTop="20dip"
+          android:layout_marginBottom="20dip"
+          android:layout_width="fill_parent"
+          android:layout_height="4dip"
+          android:background="#FF909090"/>
 
-        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
-            <TextView android:text="Motors Forward"/>
-            <ToggleButton android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/motor_forward"/>
-        </TableRow>
-        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
-            <TextView android:text="Motors Backward"/>
-            <ToggleButton android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/motor_backward"/>
-        </TableRow>
-        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
-            <TextView android:text="Motors Left"/>
-            <ToggleButton android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/motor_left"/>
-        </TableRow>
-        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
-            <TextView android:text="Motors Right"/>
-            <ToggleButton android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/motor_right"/>
-        </TableRow>
+    <Button android:text="Motors Forward"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/motor_forward"/>
+    <Button android:text="Motors Left"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/motor_left"/>
+    <Button android:text="Motors Right"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/motor_right"/>
+    <Button android:text="Motors Backward"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/motor_backward"/>
 
-        <TableRow android:paddingTop="8dip" android:paddingBottom="8dip">
-            <TextView android:text="Obstacle range (cm)"/>
+    <View android:layout_marginTop="20dip"
+          android:layout_marginBottom="20dip"
+          android:layout_width="fill_parent"
+          android:layout_height="4dip"
+          android:background="#FF909090"/>
 
-            <TextView android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:textSize="20sp"
-                      android:text="0"
-                      android:id="@+id/ultrasound_distance"/>
-        </TableRow>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:textSize="20sp"
+              android:gravity="center"
+              android:text="Obstacle range (cm)"/>
 
-    </TableLayout>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:textSize="20sp"
+              android:gravity="center"
+              android:text="0"
+              android:id="@+id/ultrasound_distance"/>
+
+    <View android:layout_marginTop="20dip"
+          android:layout_marginBottom="20dip"
+          android:layout_width="fill_parent"
+          android:layout_height="4dip"
+          android:background="#FF909090"/>
 
 </LinearLayout>
