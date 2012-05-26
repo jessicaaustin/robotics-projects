@@ -8,14 +8,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
     private TextView title_;
-    private ToggleButton motorForwardButton;
-    private ToggleButton motorReverseButton;
-    private ToggleButton motorLeftButton;
-    private ToggleButton motorRightButton;
     private TextView ultrasoundDistance;
     public static final String INTENT_CONNECTED = "ioioConnected";
     public static final String INTENT_PARAM_CONNECTED = "status";
@@ -43,42 +38,32 @@ public class MainActivity extends Activity {
         title_ = (TextView) findViewById(R.id.title);
         ultrasoundDistance = (TextView) findViewById(R.id.ultrasound_distance);
         registerReceiver(broadcastReceiver, intentFilter);
-        motorForwardButton = (ToggleButton) findViewById(R.id.motor_forward);
-        motorReverseButton = (ToggleButton) findViewById(R.id.motor_backward);
-        motorLeftButton = (ToggleButton) findViewById(R.id.motor_left);
-        motorRightButton = (ToggleButton) findViewById(R.id.motor_right);
-        motorForwardButton.setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.motor_forward).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.FORWARD));
-                motorReverseButton.setChecked(false);
-                motorLeftButton.setChecked(false);
-                motorRightButton.setChecked(false);
+                moveMotors(IOIOService.MotorControl.FORWARD, view);
             }
         });
-        motorReverseButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.motor_backward).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.REVERSE));
-                motorForwardButton.setChecked(false);
-                motorLeftButton.setChecked(false);
-                motorRightButton.setChecked(false);
+                moveMotors(IOIOService.MotorControl.REVERSE, view);
             }
         });
-        motorLeftButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.motor_left).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.LEFT));
-                motorForwardButton.setChecked(false);
-                motorReverseButton.setChecked(false);
-                motorRightButton.setChecked(false);
+                moveMotors(IOIOService.MotorControl.LEFT, view);
             }
         });
-        motorRightButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.motor_right).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendBroadcast(IOIOService.createIntentToMoveMotor(IOIOService.MotorControl.RIGHT));
-                motorForwardButton.setChecked(false);
-                motorReverseButton.setChecked(false);
-                motorLeftButton.setChecked(false);
+                moveMotors(IOIOService.MotorControl.RIGHT, view);
             }
         });
+    }
+
+    private void moveMotors(IOIOService.MotorControl direction, View view) {
+        sendBroadcast(IOIOService.createIntentToMoveMotor(direction));
+        startActivityForResult(new Intent(view.getContext(), StopActivity.class), 0);
     }
 
     @Override

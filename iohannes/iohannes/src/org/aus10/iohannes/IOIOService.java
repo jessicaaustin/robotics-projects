@@ -34,7 +34,7 @@ public class IOIOService extends Service {
     public static final String INTENT_PARAM_MOTORS = "manualDirection";
 
     public enum MotorControl {
-        FORWARD, REVERSE, LEFT, RIGHT, STOP;
+        FORWARD, REVERSE, LEFT, RIGHT, STOP
     }
 
     private MotorControl currentDirection;
@@ -42,12 +42,7 @@ public class IOIOService extends Service {
     private final IntentFilter intentFilter = new IntentFilter(INTENT_MOTORS);
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            MotorControl direction = (MotorControl) intent.getSerializableExtra(INTENT_PARAM_MOTORS);
-            if (currentDirection == direction) {
-                currentDirection = MotorControl.STOP;
-            } else {
-                currentDirection = direction;
-            }
+            currentDirection = (MotorControl) intent.getSerializableExtra(INTENT_PARAM_MOTORS);
         }
     };
 
@@ -200,6 +195,9 @@ public class IOIOService extends Service {
             ultrasoundTrigger.write(false);
             echoSeconds = (int) (ultrasoundEcho.getDuration() * 1000 * 1000);
             echoDistanceCm = echoSeconds / 29 / 2;
+            if (echoDistanceCm > 300) {
+                echoDistanceCm = 300;
+            }
             Log.i("IOHANNES", "obstacle distance = " + echoDistanceCm);
             return echoDistanceCm;
         }
