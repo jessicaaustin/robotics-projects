@@ -84,6 +84,9 @@ public class IOIOService extends Service {
         private PwmOutput motorsM2B;
         private DigitalOutput ultrasoundTrigger;
         private PulseInput ultrasoundEcho;
+        // minimum acceptable obstacle distance
+        private static final int MIN_OBSTACLE_DISTANCE = 20;
+        private static final float MOTOR_SPEED = .8f;
 
 
         public void run() {
@@ -115,11 +118,15 @@ public class IOIOService extends Service {
                     while (!abort_) {
                         // do stuff!
 
-                        float speed = .5f;
-                        controlMotors(speed);
-
                         int obstacleDistanceInCm = checkForObstacles();
                         notifyActivityWithObstacleDistance(obstacleDistanceInCm);
+
+                        if (currentDirection == MotorControl.FORWARD && obstacleDistanceInCm < MIN_OBSTACLE_DISTANCE) {
+                            Log.i("IOHANNES", "Obstacle detected! Evasive maneuvers!");
+                            executeEvasiveManeuver(MOTOR_SPEED);
+                        } else {
+                            manualControlMotors(MOTOR_SPEED);
+                        }
 
                         // spin for a little while
                         Thread.sleep(20);
@@ -141,7 +148,7 @@ public class IOIOService extends Service {
             }
         }
 
-        private void controlMotors(final float speed) throws ConnectionLostException {
+        private void manualControlMotors(final float speed) throws ConnectionLostException {
             switch (currentDirection) {
                 case FORWARD:
                     controlMotor(0, speed, 0, speed);
@@ -158,6 +165,26 @@ public class IOIOService extends Service {
                 default:
                     controlMotor(0, 0, 0, 0);
                     break;
+            }
+        }
+
+        // back up, turn 90 degrees, and move forward again
+        private void executeEvasiveManeuver(float speed) throws ConnectionLostException, InterruptedException {
+            MotorControl previousDirection = currentDirection;
+            runInDirectionForDuration(speed, MotorControl.STOP, 10);
+            runInDirectionForDuration(speed, MotorControl.REVERSE, 30);
+            runInDirectionForDuration(speed, MotorControl.STOP, 10);
+            runInDirectionForDuration(speed, MotorControl.RIGHT, 30);
+            runInDirectionForDuration(speed, MotorControl.STOP, 10);
+            currentDirection = previousDirection;
+        }
+
+        private void runInDirectionForDuration(float speed, MotorControl direction, int duration) throws ConnectionLostException, InterruptedException {
+            currentDirection = direction;
+            for (int i = 0; i < duration; i++) {
+                manualControlMotors(speed);
+                notifyActivityWithObstacleDistance(checkForObstacles());
+                Thread.sleep(20);
             }
         }
 
