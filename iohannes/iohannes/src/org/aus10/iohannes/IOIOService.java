@@ -64,15 +64,17 @@ public class IOIOService extends Service {
 
     private class IOIOThread extends Thread {
 
-        /**
-         * The pins we're using on the board.
-         */
+        private IOIO ioio_;
+        private boolean abort_ = false;
+        //
+        // The pins we're using on the board.
+        //
         private static final int MOTORS_M1A_PIN = 3;
         private static final int MOTORS_M1B_PIN = 4;
         private static final int MOTORS_M2A_PIN = 5;
         private static final int MOTORS_M2B_PIN = 6;
-        private IOIO ioio_;
-        private boolean abort_ = false;
+        private static final int ULTRASOUND_TRIGGER = 2;
+        private static final int ULTRASOUND_ECHO = 7;
         private PwmOutput motorsM1A;
         private PwmOutput motorsM1B;
         private PwmOutput motorsM2A;
@@ -107,8 +109,8 @@ public class IOIOService extends Service {
                     motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
 
                     // setup connection to the ultrasound sensor
-                    ultrasoundEcho = ioio_.openPulseInput(7, PulseInput.PulseMode.POSITIVE);
-                    ultrasoundTrigger = ioio_.openDigitalOutput(2);
+                    ultrasoundEcho = ioio_.openPulseInput(ULTRASOUND_ECHO, PulseInput.PulseMode.POSITIVE);
+                    ultrasoundTrigger = ioio_.openDigitalOutput(ULTRASOUND_TRIGGER);
 
                     while (!abort_) {
                         // do stuff!
