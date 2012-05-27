@@ -1,4 +1,4 @@
-package org.aus10.iohannes;
+package org.aus10.iohannes_ros;
 
 
 import android.app.Service;
@@ -34,7 +34,7 @@ public class IOIOService extends Service {
     public static final String INTENT_PARAM_MOTORS = "manualDirection";
 
     public enum MotorControl {
-        FORWARD, REVERSE, LEFT, RIGHT, STOP;
+        FORWARD, REVERSE, LEFT, RIGHT, STOP
     }
 
     private MotorControl currentDirection;
@@ -42,12 +42,7 @@ public class IOIOService extends Service {
     private final IntentFilter intentFilter = new IntentFilter(INTENT_MOTORS);
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            MotorControl direction = (MotorControl) intent.getSerializableExtra(INTENT_PARAM_MOTORS);
-            if (currentDirection == direction) {
-                currentDirection = MotorControl.STOP;
-            } else {
-                currentDirection = direction;
-            }
+            currentDirection = (MotorControl) intent.getSerializableExtra(INTENT_PARAM_MOTORS);
         }
     };
 
@@ -69,21 +64,26 @@ public class IOIOService extends Service {
 
     private class IOIOThread extends Thread {
 
-        /**
-         * The pins we're using on the board.
-         */
+        private IOIO ioio_;
+        private boolean abort_ = false;
+        //
+        // The pins we're using on the board.
+        //
         private static final int MOTORS_M1A_PIN = 3;
         private static final int MOTORS_M1B_PIN = 4;
         private static final int MOTORS_M2A_PIN = 5;
         private static final int MOTORS_M2B_PIN = 6;
-        private IOIO ioio_;
-        private boolean abort_ = false;
+        private static final int ULTRASOUND_TRIGGER = 2;
+        private static final int ULTRASOUND_ECHO = 7;
         private PwmOutput motorsM1A;
         private PwmOutput motorsM1B;
         private PwmOutput motorsM2A;
         private PwmOutput motorsM2B;
         private DigitalOutput ultrasoundTrigger;
         private PulseInput ultrasoundEcho;
+        // minimum acceptable obstacle distance
+        private static final int MIN_OBSTACLE_DISTANCE = 20;
+        private static final float MOTOR_SPEED = .8f;
 
 
         public void run() {
@@ -109,17 +109,21 @@ public class IOIOService extends Service {
                     motorsM2B = ioio_.openPwmOutput(MOTORS_M2B_PIN, 30);
 
                     // setup connection to the ultrasound sensor
-                    ultrasoundEcho = ioio_.openPulseInput(7, PulseInput.PulseMode.POSITIVE);
-                    ultrasoundTrigger = ioio_.openDigitalOutput(2);
+                    ultrasoundEcho = ioio_.openPulseInput(ULTRASOUND_ECHO, PulseInput.PulseMode.POSITIVE);
+                    ultrasoundTrigger = ioio_.openDigitalOutput(ULTRASOUND_TRIGGER);
 
                     while (!abort_) {
                         // do stuff!
 
-                        float speed = .5f;
-                        controlMotors(speed);
-
                         int obstacleDistanceInCm = checkForObstacles();
                         notifyActivityWithObstacleDistance(obstacleDistanceInCm);
+
+                        if (currentDirection == MotorControl.FORWARD && obstacleDistanceInCm < MIN_OBSTACLE_DISTANCE) {
+                            Log.i("IOHANNES", "Obstacle detected! Evasive maneuvers!");
+                            executeEvasiveManeuver(MOTOR_SPEED);
+                        } else {
+                            manualControlMotors(MOTOR_SPEED);
+                        }
 
                         // spin for a little while
                         Thread.sleep(20);
@@ -141,7 +145,7 @@ public class IOIOService extends Service {
             }
         }
 
-        private void controlMotors(final float speed) throws ConnectionLostException {
+        private void manualControlMotors(final float speed) throws ConnectionLostException {
             switch (currentDirection) {
                 case FORWARD:
                     controlMotor(0, speed, 0, speed);
@@ -161,6 +165,26 @@ public class IOIOService extends Service {
             }
         }
 
+        // back up, turn 90 degrees, and move forward again
+        private void executeEvasiveManeuver(float speed) throws ConnectionLostException, InterruptedException {
+            MotorControl previousDirection = currentDirection;
+            runInDirectionForDuration(speed, MotorControl.STOP, 10);
+            runInDirectionForDuration(speed, MotorControl.REVERSE, 30);
+            runInDirectionForDuration(speed, MotorControl.STOP, 10);
+            runInDirectionForDuration(speed, MotorControl.RIGHT, 30);
+            runInDirectionForDuration(speed, MotorControl.STOP, 10);
+            currentDirection = previousDirection;
+        }
+
+        private void runInDirectionForDuration(float speed, MotorControl direction, int duration) throws ConnectionLostException, InterruptedException {
+            currentDirection = direction;
+            for (int i = 0; i < duration; i++) {
+                manualControlMotors(speed);
+                notifyActivityWithObstacleDistance(checkForObstacles());
+                Thread.sleep(20);
+            }
+        }
+
         private int checkForObstacles() throws ConnectionLostException, InterruptedException {
             Log.i("IOHANNES", "checking for obstacles...");
             int echoSeconds;
@@ -173,6 +197,9 @@ public class IOIOService extends Service {
             ultrasoundTrigger.write(false);
             echoSeconds = (int) (ultrasoundEcho.getDuration() * 1000 * 1000);
             echoDistanceCm = echoSeconds / 29 / 2;
+            if (echoDistanceCm > 300) {
+                echoDistanceCm = 300;
+            }
             Log.i("IOHANNES", "obstacle distance = " + echoDistanceCm);
             return echoDistanceCm;
         }

@@ -2,18 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       android:versionCode="1"
       android:versionName="1.0"
-      package="org.aus10.iohannes">
+      package="org.aus10.iohannes_ros">
     <uses-sdk android:minSdkVersion="3" />
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application android:name=".IohannesApp"  android:icon="@drawable/icon" android:label="iohannes" android:debuggable="false">
-        <activity android:label="iohannes" android:name="MainActivity"
+        <activity android:label="iohannes-ros" android:name="MainActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="StopActivity"></activity>
 
         <service android:name=".IOIOService"></service>
 

@@ -1,4 +1,4 @@
-package org.aus10.iohannes;
+package org.aus10.iohannes_ros;
 
 import android.app.Application;
 import android.content.ComponentName;
