@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/apache_xmlrpc_client-0.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/apache_xmlrpc_common-0.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/apache_xmlrpc_server-0.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/com.springsource.org.apache.commons.codec-1.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/com.springsource.org.apache.commons.httpclient-3.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/com.springsource.org.apache.commons.io-1.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/com.springsource.org.apache.commons.lang-2.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/com.springsource.org.apache.commons.logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/com.springsource.org.apache.commons.net-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/dnsjava-2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/guava-r07.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/netty-3.2.4.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/rosjava-0.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/rosjava_bootstrap-0.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/rosjava_messages-0.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/rosjava_tutorial_pubsub-0.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ws-commons-util-1.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

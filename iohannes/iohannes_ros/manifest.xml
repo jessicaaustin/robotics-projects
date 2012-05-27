@@ -1,0 +1,10 @@
+<package>
+  <description brief="iohannes_ros">
+     iohannes_ros
+  </description>
+  <author>Jessica Austin</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/iohannes_ros</url>
+</package>
+

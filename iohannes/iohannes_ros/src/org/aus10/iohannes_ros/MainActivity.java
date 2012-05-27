@@ -1,5 +1,6 @@
 package org.aus10.iohannes_ros;
 
+import org.ros.android.RosActivity;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;

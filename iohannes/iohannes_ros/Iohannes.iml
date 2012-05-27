@@ -37,6 +37,7 @@
     <orderEntry type="jdk" jdkName="Android 4.0.3 Google APIs" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="IOIOLib" />
+    <orderEntry type="library" name="libs" level="project" />
   </component>
 </module>
 
