@@ -1,3 +1,28 @@
+OVERVIEW
+
+voronoi-bot is a robot that navigates my creating a Generalized Voronoi Graph (GVG) and then traveling along this graph to reach the goal. It requires a full map of the environment in order to navigate.
+
+I completed this project during a class for Joel Burdick while an undergrad at Caltech. I've since added the code to github and started cleaning up the files so that they're easier to understand and reuse (refactoring, adding tests, etc). This is still in progress, but the code is functional in the meantime.
+
+See example_output/voronoi_plot.png for an example of the output (plotted in Matlab).
+
+To read more about using GVG for navigation, I recommend the following:
+
+http://en.wikipedia.org/wiki/Voronoi_diagram
+
+Sensor Based Planning, Part II: Incremental Construction of the Generalized Voronoi Graph
+  Howie Choset, Joel Burdick
+  http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.68.3533
+
+Mobile Robot Navigation: Issues in Implementation the Generalized Voronoi Graph in the Plane
+  Howie Choset, Ilhan Konukseven, and Joel Burdick
+  http://www.ri.cmu.edu/publication_view.html?pub_id=1415
+
+Path Planning for Mobile Robot Navigation using Voronoi Diagram and Fast Marching
+  Robotics Lab, Carlos III University
+  http://neuro.bstu.by/ai/To-dom/My_research/Papers-2.0/Closed-loop-path-planning/Voro.pdf
+
+
 SETUP
 
 This project requires player:
@@ -9,10 +34,15 @@ in ubuntu:
 
 USAGE
 
-In a terminal, run
+Compile the project and create executables with:
+$ make
+Check the Makefile for location of includes if you encounter errors
+
+In a terminal, start up player with
 $ player cfg/voronoi.cfg
 (in ubuntu, the executable is called robot-player)
 
 In another terminal:
-$ make
 $ ./bin/voronoibot
+
+After the robot completes the course, you can run the matlab/plotVoronoi.m file to plot the output
