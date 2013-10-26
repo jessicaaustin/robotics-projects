@@ -1,0 +1,8 @@
+To build:
+
+cmake .
+make
+
+To run:
+
+./orb_matcher image1 image2
