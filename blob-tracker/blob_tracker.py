@@ -31,6 +31,8 @@ parser.add_option("", "--follow", action="store_true", dest="follow",
                     help="follow the object by controlling camera servos")
 parser.add_option("-d", "--device", dest="serial_device", default="/dev/ttyACM0",
                     help="which serial device to use for following. [default: %default]")
+parser.add_option("-w", "--headless", dest="headless", default="0",
+                    help="toggle headless mode. [0 or 1; default: %default]")
 
 (options, args) = parser.parse_args()
 MY_CAMERA = int(options.camera_device)
@@ -47,6 +49,7 @@ if options.track_blue:
 
 FOLLOW = options.follow
 SERIAL_DEVICE = options.serial_device
+HEADLESS = options.headless == '1'
 
 # convert the given image to a binary image where all values are 
 # zero other than areas with blue hue
@@ -74,8 +77,9 @@ if not capture:
     exit(1)
 
 # create display windows
-cv.NamedWindow('camera', cv.CV_WINDOW_AUTOSIZE)
-cv.NamedWindow('threshed', cv.CV_WINDOW_AUTOSIZE)
+if not HEADLESS:
+    cv.NamedWindow('camera', cv.CV_WINDOW_AUTOSIZE)
+    cv.NamedWindow('threshed', cv.CV_WINDOW_AUTOSIZE)
 
 # initialize position array
 positions_x, positions_y = [0]*SMOOTHNESS, [0]*SMOOTHNESS
@@ -175,13 +179,14 @@ while 1:
 
 
 
-    # show the images
-    cv.Add(image, object_indicator, image)
-    cv.ShowImage('threshed', image_threshed)
-    cv.ShowImage('camera', image)
+    if not HEADLESS:
+        # show the images
+        cv.Add(image, object_indicator, image)
+        cv.ShowImage('threshed', image_threshed)
+        cv.ShowImage('camera', image)
 
-    # break from the loop if there is a key press
-    c = cv.WaitKey(10)
-    if c != -1:
-        break
+        # break from the loop if there is a key press
+        c = cv.WaitKey(10)
+        if c != -1:
+            break
 
